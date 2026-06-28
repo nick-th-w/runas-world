@@ -190,10 +190,17 @@ export default function Forest({ player, quest, speech, advance, completeSideQue
                 🌰 Acorns found! ✓ {{ gold:'🥇', silver:'🥈', bronze:'🥉' }[quest.questBests?.acorns]}
               </div>
             )}
-            <button className="btn-primary"
-              onClick={() => { speech.stop(); advance({ phase: 'sunnyhill' }); onLeave?.() }}>
-              Continue to Sunny Hill →
-            </button>
+            {quest.butterfly && quest.acorns ? (
+              <button className="btn-primary"
+                onClick={() => { speech.stop(); advance({ phase: 'sunnyhill' }); onLeave?.() }}>
+                Continue to Sunny Hill →
+              </button>
+            ) : (
+              <p style={{ fontSize:'0.9rem', color:'rgba(255,255,255,0.7)', textAlign:'center',
+                background:'rgba(0,0,0,0.3)', padding:'8px 16px', borderRadius:'16px' }}>
+                Complete both challenges to continue ✨
+              </p>
+            )}
           </div>
         </div>
       )}

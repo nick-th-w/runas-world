@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CHARACTERS, Capybara, Rabbit, Whale, Bird } from '../characters'
 
-const ANIMALS = ['capybara', 'rabbit', 'whale', 'bird']
+const ANIMALS = ['capybara', 'rabbit', 'bird', 'whale']
 
 export default function CharacterSelect({ onStart }) {
   const [character, setCharacter] = useState('capybara')

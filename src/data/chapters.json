@@ -1,5 +1,5 @@
 [
-  { "id": 1,  "title": "The Lost Letter",       "subtitle": "A tiny bee, a big adventure",               "biome": "forest",   "icon": "🌲", "mapX": 10, "mapY": 80, "color": "#4ade80" },
+  { "id": 1,  "title": "The Whispering Forest",       "subtitle": "A tiny bee, a big adventure",               "biome": "forest",   "icon": "🌲", "mapX": 10, "mapY": 80, "color": "#4ade80" },
   { "id": 2,  "title": "The Enchanted Lake",    "subtitle": "Secrets ripple beneath the surface",        "biome": "lake",     "icon": "💧", "mapX": 22, "mapY": 68, "color": "#60a5fa" },
   { "id": 3,  "title": "The Crystal Caves",     "subtitle": "Darkness hides a glittering world",         "biome": "cave",     "icon": "💎", "mapX": 36, "mapY": 60, "color": "#a78bfa" },
   { "id": 4,  "title": "The Blazing Desert",    "subtitle": "Sand dunes as tall as the sky",             "biome": "desert",   "icon": "☀️", "mapX": 50, "mapY": 72, "color": "#fb923c" },

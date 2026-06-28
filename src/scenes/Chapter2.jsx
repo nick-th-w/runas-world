@@ -2,7 +2,7 @@ import { useState } from 'react'
 import DialogueBox from '../components/DialogueBox'
 import PuzzleSet from './puzzles'
 import TeethRhythmGame from './TeethRhythmGame'
-import { CHARACTERS } from '../characters'
+import { CHARACTERS, BeaSVG } from '../characters'
 import dialogue from '../data/dialogue.json'
 
 const d2 = dialogue.ch2
@@ -43,13 +43,16 @@ function BedroomMorningScene({ children }) {
         {/* curtains */}
         <path d="M555,55 Q540,130 545,200 L560,200 L560,60 Z" fill="#fca5a5" />
         <path d="M745,55 Q760,130 755,200 L740,200 L740,60 Z" fill="#fca5a5" />
-        {/* bed */}
-        <rect x="40" y="290" width="320" height="180" rx="10" fill="#dbeafe" stroke="#93c5fd" strokeWidth="3" />
-        <rect x="40" y="270" width="320" height="50" rx="8" fill="#bfdbfe" stroke="#93c5fd" strokeWidth="3" />
+        {/* bed frame */}
+        <rect x="60" y="300" width="280" height="165" rx="12" fill="#dbeafe" stroke="#93c5fd" strokeWidth="3" />
+        {/* headboard */}
+        <rect x="60" y="278" width="280" height="44" rx="10" fill="#bfdbfe" stroke="#93c5fd" strokeWidth="3" />
         {/* pillow */}
-        <ellipse cx="200" cy="295" rx="80" ry="28" fill="#fff" stroke="#93c5fd" strokeWidth="2" />
-        {/* blanket pattern */}
-        {[0,1,2].map(i => <rect key={i} x={60+i*80} y="340" width="60" height="110" rx="4" fill="#93c5fd" opacity="0.3" />)}
+        <ellipse cx="200" cy="300" rx="78" ry="26" fill="#fff" stroke="#93c5fd" strokeWidth="2" />
+        {/* single blanket */}
+        <rect x="65" y="328" width="270" height="128" rx="10" fill="#93c5fd" opacity="0.55" />
+        <path d="M65,352 Q200,342 335,352" stroke="#7dd3fc" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" />
+        <path d="M65,378 Q200,368 335,378" stroke="#7dd3fc" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" />
         {/* bedside table */}
         <rect x="380" y="320" width="80" height="90" rx="6" fill="#d97706" />
         <rect x="375" y="315" width="90" height="15" rx="4" fill="#b45309" />
@@ -490,22 +493,14 @@ export default function Chapter2({ player, quest, speech, advanceCh2, completeSi
   if (subPhase === 'bedroom-morning') {
     return (
       <BedroomMorningScene>
-        <div style={{ position:'absolute', bottom:'6%', left:'6%' }}>
-          <Component size={90} hasCrown={false} />
+        {/* character sitting up in bed — bigger, on the bed */}
+        <div style={{ position:'absolute', bottom:'20%', left:'4%' }}>
+          <Component size={130} hasCrown={false} />
           <div className="name-tag">{player.name}</div>
         </div>
-        {/* Bea the Bee */}
-        <div style={{ position:'absolute', top:'18%', right:'12%' }}>
-          <svg viewBox="0 0 60 50" width="80" height="66">
-            <ellipse cx="25" cy="22" rx="22" ry="16" fill="#fde047" stroke="#d97706" strokeWidth="2" />
-            <rect x="11" y="13" width="7" height="18" rx="2" fill="#1c1917" opacity="0.45" />
-            <rect x="20" y="13" width="7" height="18" rx="2" fill="#1c1917" opacity="0.45" />
-            <ellipse cx="3" cy="10" rx="14" ry="8" fill="#bfdbfe" opacity="0.8" transform="rotate(-20 3 10)" />
-            <ellipse cx="18" cy="6" rx="14" ry="8" fill="#bfdbfe" opacity="0.8" transform="rotate(20 18 6)" />
-            <circle cx="47" cy="20" r="13" fill="#fde047" stroke="#d97706" strokeWidth="2" />
-            <circle cx="51" cy="17" r="4" fill="#333" /><circle cx="52.5" cy="15.5" r="1.5" fill="#fff" />
-            <path d="M43,25 Q47,30 51,25" stroke="#d97706" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-          </svg>
+        {/* Bea the Bee — canonical component */}
+        <div style={{ position:'absolute', top:'14%', right:'10%', filter:'drop-shadow(0 3px 6px rgba(0,0,0,0.12))' }}>
+          <BeaSVG size={100} />
         </div>
         <DialogueBox lines={sub(d2.bedroomMorning, player.name)} speak={speech.speak}
           speakerName="Bea the Bee" onComplete={() => advance('village-path')} />

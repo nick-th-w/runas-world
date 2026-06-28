@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import DialogueBox from '../components/DialogueBox'
-import { CHARACTERS } from '../characters'
+import { CHARACTERS, BeaSVG } from '../characters'
 import dialogue from '../data/dialogue.json'
 
 function MeadowScene({ children }) {
@@ -58,29 +58,7 @@ function MeadowScene({ children }) {
             <circle r="6" fill="#fde047" />
           </g>
         ))}
-        {/* bee character */}
-        <g transform="translate(300,220)">
-          {/* bee body */}
-          <ellipse cx="0" cy="0" rx="22" ry="16" fill="#fde047" stroke="#d97706" strokeWidth="2" />
-          {/* stripes */}
-          <rect x="-8" y="-10" width="6" height="20" rx="2" fill="#1c1917" opacity="0.5" />
-          <rect x="2" y="-10" width="6" height="20" rx="2" fill="#1c1917" opacity="0.5" />
-          {/* wings */}
-          <ellipse cx="-8" cy="-16" rx="14" ry="8" fill="#bfdbfe" opacity="0.8" stroke="#93c5fd" strokeWidth="1" transform="rotate(-20 -8 -16)" />
-          <ellipse cx="8" cy="-16" rx="14" ry="8" fill="#bfdbfe" opacity="0.8" stroke="#93c5fd" strokeWidth="1" transform="rotate(20 8 -16)" />
-          {/* head */}
-          <circle cx="24" cy="-2" r="13" fill="#fde047" stroke="#d97706" strokeWidth="2" />
-          {/* eyes */}
-          <circle cx="28" cy="-5" r="4" fill="#333" />
-          <circle cx="29.5" cy="-6.5" r="1.5" fill="#fff" />
-          {/* smile */}
-          <path d="M20,3 Q24,8 28,3" stroke="#d97706" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-          {/* antennae */}
-          <line x1="22" y1="-13" x2="18" y2="-26" stroke="#d97706" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="28" y1="-14" x2="32" y2="-27" stroke="#d97706" strokeWidth="1.5" strokeLinecap="round" />
-          <circle cx="18" cy="-27" r="3" fill="#ef4444" />
-          <circle cx="32" cy="-28" r="3" fill="#ef4444" />
-        </g>
+        {/* bee placeholder space — component renders outside SVG */}
         {/* letter on doorstep */}
         <g transform="translate(610,328)">
           <rect x="-20" y="-14" width="40" height="28" rx="3" fill="#fef9c3" stroke="#d97706" strokeWidth="2" />
@@ -101,6 +79,10 @@ export default function Meadow({ player, speech, advance, onLeave }) {
 
   return (
     <MeadowScene>
+      {/* Bea the Bee — canonical component */}
+      <div style={{ position:'absolute', top:'34%', left:'30%', filter:'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }}>
+        <BeaSVG size={110} />
+      </div>
       {/* player character bottom-left */}
       <div style={{ position:'absolute', bottom:'6%', left:'6%' }}>
         <Component size={100} hasCrown={false} />

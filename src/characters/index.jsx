@@ -133,3 +133,31 @@ export const CHARACTERS = {
   whale:    { Component: Whale,    label: 'Whale',    color: '#5b9bd5' },
   bird:     { Component: Bird,     label: 'Bird',     color: '#facc15' },
 }
+
+// ── Canonical Bea the Bee — use this component everywhere ────────────────────
+export function BeaSVG({ size = 90 }) {
+  return (
+    <svg viewBox="0 0 80 56" width={size} height={size * 0.7} aria-label="Bea the Bee">
+      {/* wings */}
+      <ellipse cx="16" cy="12" rx="15" ry="9" fill="#bfdbfe" opacity="0.88" stroke="#93c5fd" strokeWidth="1" transform="rotate(-20 16 12)" />
+      <ellipse cx="34" cy="10" rx="15" ry="9" fill="#bfdbfe" opacity="0.88" stroke="#93c5fd" strokeWidth="1" transform="rotate(20 34 10)" />
+      {/* body */}
+      <ellipse cx="26" cy="30" rx="22" ry="16" fill="#fde047" stroke="#d97706" strokeWidth="2" />
+      {/* stripes */}
+      <rect x="15" y="19" width="6" height="22" rx="2" fill="#1c1917" opacity="0.5" />
+      <rect x="24" y="19" width="6" height="22" rx="2" fill="#1c1917" opacity="0.5" />
+      {/* head */}
+      <circle cx="52" cy="28" r="14" fill="#fde047" stroke="#d97706" strokeWidth="2" />
+      {/* eyes */}
+      <circle cx="57" cy="24" r="4.5" fill="#222" />
+      <circle cx="58.8" cy="22.5" r="1.8" fill="#fff" />
+      {/* smile */}
+      <path d="M46,34 Q52,41 58,34" stroke="#d97706" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+      {/* antennae */}
+      <line x1="47" y1="16" x2="42" y2="3" stroke="#d97706" strokeWidth="1.8" strokeLinecap="round" />
+      <line x1="55" y1="15" x2="60" y2="2" stroke="#d97706" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="42" cy="2" r="3.5" fill="#ef4444" />
+      <circle cx="60" cy="1" r="3.5" fill="#ef4444" />
+    </svg>
+  )
+}
