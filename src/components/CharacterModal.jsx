@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CHARACTERS } from '../characters'
 
-const ANIMALS = ['capybara', 'rabbit', 'whale', 'bird']
+const ANIMALS = ['capybara', 'rabbit', 'bird', 'whale']
 
 export default function CharacterModal({ current, playerName, onConfirm, onClose }) {
   const [selected, setSelected] = useState(current)

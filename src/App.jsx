@@ -4,6 +4,7 @@ import WorldMap from './components/WorldMap'
 import StickerBook from './components/StickerBook'
 import CharacterModal from './components/CharacterModal'
 import CloudSaveModal from './components/CloudSaveModal'
+import NewGameModal from './components/NewGameModal'
 import SollyPopup from './components/SollyPopup'
 import Meadow from './scenes/Meadow'
 import Forest from './scenes/Forest'
@@ -105,9 +106,19 @@ export default function App() {
   const [showCharacterModal, setShowCharacterModal] = useState(false)
   const [showSollyPopup, setShowSollyPopup] = useState(false)
   const [showCloudModal, setShowCloudModal] = useState(false)
+  const [showNewGameModal, setShowNewGameModal] = useState(false)
+
+  const handleConfirmNewGame = () => {
+    // Clear all local progress — old PIN's cloud save stays intact
+    try {
+      localStorage.removeItem('runas-quest')
+      localStorage.removeItem('runas-player')
+    } catch {}
+    window.location.reload() // fresh start → character select, new PIN generated
+  }
 
   const { quest, advance, completeSideQuest, completeMain, resetChapter,
-          addReward, unlockPenalty, startCh2, advanceCh2, completeCh2Main } = useQuest()
+          addReward, unlockPenalty, startCh2, advanceCh2, completeCh2Main, resetAll } = useQuest()
   const speech = useSpeech()
 
   // Load state from cloud (furthest-ahead wins)
@@ -188,6 +199,7 @@ export default function App() {
           onStickerBook={() => setScreen('book')}
           onPenalty={() => { unlockPenalty(); setScreen('penalty') }}
           onChangeCharacter={() => setShowCharacterModal(true)}
+          onNewGame={() => setShowNewGameModal(true)}
           onCloudSave={() => setShowCloudModal(true)}
           pin={pin}
         />
@@ -241,6 +253,12 @@ export default function App() {
       {showCloudModal && (
         <CloudSaveModal pin={pin} onLoad={loadFromCloud}
           onForceSave={forceSave} onClose={() => setShowCloudModal(false)} />
+      )}
+
+      {showNewGameModal && (
+        <NewGameModal pin={pin}
+          onConfirm={handleConfirmNewGame}
+          onClose={() => setShowNewGameModal(false)} />
       )}
     </div>
   )

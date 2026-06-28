@@ -128,5 +128,10 @@ export function useQuest() {
   const unlockPenalty = () =>
     setQuest((q) => ({ ...q, penaltyUnlocked: true }))
 
-  return { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty, startCh2, advanceCh2, completeCh2Main }
+  const resetAll = () => {
+    try { localStorage.removeItem(QUEST_KEY) } catch {}
+    setQuest(initial)
+  }
+
+  return { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty, startCh2, advanceCh2, completeCh2Main, resetAll }
 }

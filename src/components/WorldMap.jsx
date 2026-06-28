@@ -35,7 +35,7 @@ function MedalBadge({ medal }) {
   return <span className="node-medal">{emoji}</span>
 }
 
-export default function WorldMap({ quest, player, pendingCharacter, onPlayChapter, onStickerBook, onPenalty, onChangeCharacter, onCloudSave, pin }) {
+export default function WorldMap({ quest, player, pendingCharacter, onPlayChapter, onStickerBook, onPenalty, onChangeCharacter, onNewGame, onCloudSave, pin }) {
   const { chaptersCompleted, questBests, medalTotals, penaltyUnlocked } = quest
   const showBall = chaptersCompleted[0] // visible after ch1 complete (flashing until tapped, bouncing after)
 
@@ -60,6 +60,7 @@ export default function WorldMap({ quest, player, pendingCharacter, onPlayChapte
           <span>🥇 {medalTotals.gold}</span>
         </div>
         <button className="btn-book" onClick={onCloudSave} title={`Cloud save · PIN: ${pin}`}>☁️</button>
+        <button className="btn-book btn-new-game" onClick={onNewGame} title="Start a new game">🆕</button>
         <button className="btn-book btn-change-char" onClick={onChangeCharacter}>
           <span className="char-btn-label">{player?.name ?? 'Change'}</span>
           <span className="char-mini-wrap">
