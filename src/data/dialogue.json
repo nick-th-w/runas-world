@@ -56,5 +56,98 @@
       "You did it, [NAME]! What an amazing adventure!",
       "You are the kindest, bravest friend in the whole world!"
     ]
+  },
+  "ch2": {
+    "bedroomMorning": [
+      "[NAME]! It's me, Bea! Wake up — you have a wobbly tooth!",
+      "This is very special! The Tooth Fairy's Lake is nearby...",
+      "Legend says she has hidden 6 magical trial stones around the lake!",
+      "The first brave child to collect all 6 gets a visit from the Tooth Fairy tonight!",
+      "Are you ready for the adventure, [NAME]?"
+    ],
+    "villagePath": [
+      "The Tooth Fairy's Lake is just ahead, [NAME]!",
+      "6 stones, 6 challenges — kindness and bravery will see you through.",
+      "I'll be waiting for you at the end. Now go find those stones!"
+    ],
+    "lakeshoreArrival": [
+      "Welcome to the Tooth Fairy's Lake, [NAME]! Isn't it beautiful?",
+      "The first trial stone is over by the lily pads!",
+      "But the lily pads need your help first..."
+    ],
+    "lilyPadsIntro": [
+      "Oh no! The lily pads have all floated apart!",
+      "Help them reunite by solving 3 challenges, [NAME]!"
+    ],
+    "lilyPadsSuccess": [
+      "The lily pads are together again! The first trial stone is YOURS!",
+      "1 of 6 stones, [NAME]! Keep going!"
+    ],
+    "lakeShallowsArrival": [
+      "Look at the shallows, [NAME] — the baby fish are playing!",
+      "Trial stone 2 is hidden with them. And stone 3 is... in the tooth waterfall!",
+      "That one will take real skill!"
+    ],
+    "babyFishIntro": [
+      "The baby fish are all muddled up! Can you help them, [NAME]?",
+      "Solve 3 challenges and they'll show you where the stone is hiding!"
+    ],
+    "babyFishSuccess": [
+      "The baby fish are so happy! Stone number 2 is yours, [NAME]!",
+      "2 down, 4 to go!"
+    ],
+    "fallingTeethIntro": [
+      "The magical tooth waterfall! Stone 3 is hidden inside!",
+      "Catch all 20 falling teeth as they come down, [NAME]!",
+      "But be careful — 3 misses and you start again!"
+    ],
+    "fallingTeethSuccess": [
+      "You caught them all! Incredible, [NAME]!",
+      "Stone 3 is yours! That's halfway — 3 of 6!"
+    ],
+    "deepLakeArrival": [
+      "The deep lake... this is where the Lake Spirit lives, [NAME].",
+      "Stones 4, 5 and 6 are all here. This will be your greatest challenge yet.",
+      "Brave heart, [NAME]. You can do this!"
+    ],
+    "fairyRingIntro": [
+      "The Fairy Ring! It glows with ancient magic...",
+      "Stones 4 and 5 are here, [NAME]. Prove your wisdom!"
+    ],
+    "fairyRingSuccess": [
+      "Brilliantly done! Stones 4 and 5 are yours, [NAME]!",
+      "Now for the last stone — but first, face the Lake Spirit!"
+    ],
+    "lakeSpiritIntro": [
+      "HALT. Who dares enter my domain?",
+      "You want the 6th stone? Then MATCH MY PATTERN, child!",
+      "Watch carefully, [NAME]... then repeat exactly what you see!"
+    ],
+    "lakeSpiritWrong": [
+      "Not quite! Watch again carefully...",
+      "Take your time, [NAME]. You can do it!"
+    ],
+    "lakeSpiritSuccess": [
+      "...Remarkable. You have a brave and clever heart.",
+      "Take the 6th stone, [NAME]. You have earned it truly.",
+      "Now go home — and keep that tooth safe tonight!"
+    ],
+    "bedroomNight": [
+      "You collected all 6 trial stones, [NAME]! You did it!",
+      "And look... your tooth is ready to come out!",
+      "Put it under your pillow, close your eyes, and go to sleep...",
+      "The Tooth Fairy WILL come tonight. I promise."
+    ],
+    "toothFairyArrival": [
+      "✨ Hello, [NAME]! I'm the Tooth Fairy!",
+      "I heard about your incredible bravery at my lake today!",
+      "You collected all 6 stones and faced my Lake Spirit!",
+      "Here is a very special gift — just for you. Sweet dreams! ✨"
+    ],
+    "ch2Complete": [
+      "What an adventure, [NAME]!",
+      "Kind, brave, and brilliant at the Tooth Fairy's Lake.",
+      "Chapter 2 complete! The story continues..."
+    ]
   }
 }

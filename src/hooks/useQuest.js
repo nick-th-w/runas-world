@@ -4,14 +4,24 @@ const CHAPTER_COUNT = 11
 const QUEST_KEY = 'runas-quest'
 
 const initial = {
-  phase: 'meadow',
-  butterfly: false,
-  acorns: false,
+  // shared
+  currentChapter: 1,
   rewards: [],
   questBests: {},
   medalTotals: { bronze: 0, silver: 0, gold: 0 },
   chaptersCompleted: Array(CHAPTER_COUNT).fill(false),
   penaltyUnlocked: false,
+  // ch1
+  phase: 'meadow',
+  butterfly: false,
+  acorns: false,
+  // ch2
+  ch2Phase: 'bedroom-morning',
+  ch2LilyPads: false,
+  ch2BabyFish: false,
+  ch2FallingTeeth: false,
+  ch2FairyRing: false,
+  ch2MiniBoss: false,
 }
 
 function load() {
@@ -59,9 +69,31 @@ export function useQuest() {
   const resetChapter = () =>
     setQuest((q) => ({
       ...q,
+      currentChapter: 1,
       phase: 'meadow',
       butterfly: false,
       acorns: false,
+    }))
+
+  const startCh2 = () =>
+    setQuest((q) => ({
+      ...q,
+      currentChapter: 2,
+      ch2Phase: 'bedroom-morning',
+      ch2LilyPads: false,
+      ch2BabyFish: false,
+      ch2FallingTeeth: false,
+      ch2FairyRing: false,
+      ch2MiniBoss: false,
+    }))
+
+  const advanceCh2 = (update) => setQuest((q) => ({ ...q, ...update }))
+
+  const completeCh2Main = () =>
+    setQuest((q) => ({
+      ...q,
+      rewards: [...new Set([...q.rewards, 'ch2FairyCoin', 'ch2MoonTiara'])],
+      chaptersCompleted: q.chaptersCompleted.map((v, i) => (i === 1 ? true : v)),
     }))
 
   const addReward = (id) =>
@@ -72,5 +104,5 @@ export function useQuest() {
   const unlockPenalty = () =>
     setQuest((q) => ({ ...q, penaltyUnlocked: true }))
 
-  return { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty }
+  return { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty, startCh2, advanceCh2, completeCh2Main }
 }

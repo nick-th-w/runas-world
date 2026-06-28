@@ -88,19 +88,78 @@ function GoldTrophySticker() {
   )
 }
 
+function ToothSticker() {
+  return <svg viewBox="0 0 60 70" width="52" height="60">
+    <path d="M10,10 Q10,0 20,0 L40,0 Q50,0 50,10 L52,35 Q55,55 45,65 Q38,72 30,65 Q22,72 15,65 Q5,55 8,35 Z" fill="#fff" stroke="#d1d5db" strokeWidth="2" />
+    <path d="M28,40 Q30,50 32,40" stroke="#e5e7eb" strokeWidth="1.5" fill="none" />
+  </svg>
+}
+
+function FishBadge() {
+  return <svg viewBox="0 0 60 60" width="56" height="56">
+    <circle cx="30" cy="30" r="28" fill="#dbeafe" stroke="#60a5fa" strokeWidth="3" />
+    <ellipse cx="30" cy="30" rx="14" ry="8" fill="#fb923c" />
+    <path d="M14,30 L4,22 L4,38 Z" fill="#ea580c" />
+    <circle cx="38" cy="27" r="3" fill="#fff" /><circle cx="38" cy="27" r="1.5" fill="#333" />
+  </svg>
+}
+
+function WandSticker() {
+  return <svg viewBox="0 0 50 70" width="40" height="56">
+    <line x1="10" y1="60" x2="40" y2="15" stroke="#a78bfa" strokeWidth="4" strokeLinecap="round" />
+    <text x="28" y="18" fontSize="20">⭐</text>
+    {[[8,50],[16,38],[30,28]].map(([x,y],i)=><text key={i} x={x} y={y} fontSize="8" fill="#fde047">✦</text>)}
+  </svg>
+}
+
+function MoonBadge() {
+  return <svg viewBox="0 0 60 60" width="56" height="56">
+    <circle cx="30" cy="30" r="28" fill="#fef3c7" stroke="#fbbf24" strokeWidth="3" />
+    <circle cx="30" cy="30" r="18" fill="#fde047" stroke="#d97706" strokeWidth="1.5" />
+    <circle cx="38" cy="24" r="12" fill="#fef3c7" stroke="#fef3c7" strokeWidth="1" />
+    <text x="22" y="36" fontSize="12" fill="#d97706">🌙</text>
+  </svg>
+}
+
+function FairyCoinSticker() {
+  return <svg viewBox="0 0 60 60" width="56" height="56">
+    <circle cx="30" cy="30" r="26" fill="#fbbf24" stroke="#d97706" strokeWidth="3" />
+    <circle cx="30" cy="30" r="20" fill="#fde047" />
+    <text x="22" y="36" fontSize="16" fill="#d97706">🪙</text>
+    {[[10,10],[50,10],[10,50],[50,50]].map(([x,y],i)=><text key={i} x={x} y={y} fontSize="8" fill="#fbbf24" opacity="0.7">✨</text>)}
+  </svg>
+}
+
+function MoonTiaraSticker() {
+  return <svg viewBox="0 0 80 40" width="72" height="36">
+    <path d="M10,30 Q20,8 30,20 Q40,8 50,20 Q60,8 70,30" stroke="#a78bfa" strokeWidth="3" fill="none" strokeLinecap="round" />
+    <circle cx="20" cy="16" r="6" fill="#fde047" stroke="#d97706" strokeWidth="1.5" />
+    <circle cx="40" cy="10" r="7" fill="#c084fc" stroke="#9333ea" strokeWidth="1.5" />
+    <circle cx="60" cy="16" r="6" fill="#fde047" stroke="#d97706" strokeWidth="1.5" />
+    <text x="37" y="14" fontSize="8" fill="#fff">🌙</text>
+  </svg>
+}
+
 const REWARD_ART = {
-  flowerSticker: FlowerSticker,
-  kindHeart:     KindHeartBadge,
-  sharpEyes:     SharpEyesBadge,
-  flowerCrown:   FlowerCrownItem,
-  goldenGloves:  GoldenGlovesSticker,
-  goldTrophy:    GoldTrophySticker,
+  flowerSticker:  FlowerSticker,
+  kindHeart:      KindHeartBadge,
+  sharpEyes:      SharpEyesBadge,
+  flowerCrown:    FlowerCrownItem,
+  goldenGloves:   GoldenGlovesSticker,
+  goldTrophy:     GoldTrophySticker,
+  ch2ToothBadge:  ToothSticker,
+  ch2FishBadge:   FishBadge,
+  ch2WandSticker: WandSticker,
+  ch2MoonBadge:   MoonBadge,
+  ch2FairyCoin:   FairyCoinSticker,
+  ch2MoonTiara:   MoonTiaraSticker,
 }
 
 // ── Chapter → sticker mapping (add new chapters here as they ship) ────────────
 
 const CHAPTER_STICKERS = {
   1: ['kindHeart', 'sharpEyes', 'flowerSticker', 'flowerCrown'],
+  2: ['ch2ToothBadge', 'ch2FishBadge', 'ch2WandSticker', 'ch2MoonBadge', 'ch2FairyCoin', 'ch2MoonTiara'],
 }
 
 const SOLLY_STICKERS = {

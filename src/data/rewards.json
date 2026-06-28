@@ -4,5 +4,11 @@
   "flowerSticker": { "id": "flowerSticker", "name": "Golden Flower", "type": "sticker", "desc": "Awarded for delivering the letter" },
   "flowerCrown":   { "id": "flowerCrown",   "name": "Flower Crown",   "type": "item",    "desc": "A beautiful crown for completing the adventure" },
   "goldenGloves":  { "id": "goldenGloves",  "name": "Golden Gloves",  "type": "sticker", "desc": "Secret reward for saving 4+ penalties" },
-  "goldTrophy":    { "id": "goldTrophy",    "name": "Gold Trophy",    "type": "sticker", "desc": "Secret reward for a perfect 5/5 penalty shootout" }
+  "goldTrophy":    { "id": "goldTrophy",    "name": "Gold Trophy",    "type": "sticker", "desc": "Secret reward for a perfect 5/5 penalty shootout" },
+  "ch2ToothBadge": { "id": "ch2ToothBadge","name": "Wobbly Tooth",   "type": "badge",   "desc": "Awarded for reuniting the lily pads" },
+  "ch2FishBadge":  { "id": "ch2FishBadge", "name": "Baby Fish",      "type": "badge",   "desc": "Awarded for helping the baby fish" },
+  "ch2WandSticker":{ "id": "ch2WandSticker","name": "Magic Wand",    "type": "sticker", "desc": "Awarded for catching all falling teeth" },
+  "ch2MoonBadge":  { "id": "ch2MoonBadge", "name": "Crescent Moon",  "type": "badge",   "desc": "Awarded for completing the Fairy Ring" },
+  "ch2FairyCoin":  { "id": "ch2FairyCoin", "name": "Fairy Coin",     "type": "sticker", "desc": "The Tooth Fairy's gift for completing Chapter 2" },
+  "ch2MoonTiara":  { "id": "ch2MoonTiara", "name": "Moon Tiara",     "type": "item",    "desc": "A magical tiara that appears on your character" }
 }

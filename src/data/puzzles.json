@@ -96,5 +96,142 @@
         "pairs": ["🌙", "🍎", "🐸", "🦊"]
       }
     }
+  },
+  "chapter2": {
+    "lily-pads": {
+      "difficulty": 6,
+      "math": {
+        "timePerQuestion": 18,
+        "questions": [
+          { "a": 14, "b": 7,  "op": "+", "answer": 21, "choices": [19, 20, 21, 23] },
+          { "a": 30, "b": 13, "op": "-", "answer": 17, "choices": [15, 16, 17, 18] },
+          { "a": 12, "b": 9,  "op": "+", "answer": 21, "choices": [19, 21, 22, 24] },
+          { "a": 25, "b": 8,  "op": "-", "answer": 17, "choices": [15, 17, 18, 20] },
+          { "a": 16, "b": 7,  "op": "+", "answer": 23, "choices": [21, 22, 23, 25] },
+          { "a": 34, "b": 15, "op": "-", "answer": 19, "choices": [17, 18, 19, 21] }
+        ]
+      },
+      "pattern": {
+        "timePerQuestion": 14,
+        "questions": [
+          { "items": ["red","blue","green","red","blue"],     "answer": "green", "choices": ["green","red","blue"],    "question": "What colour comes next?" },
+          { "items": ["pink","pink","yellow","pink","pink"],  "answer": "yellow","choices": ["pink","yellow","blue"],  "question": "What colour comes next?" },
+          { "items": ["orange","purple","orange","purple"],   "answer": "orange","choices": ["orange","purple","green"],"question": "What colour comes next?" },
+          { "items": ["blue","green","blue","green","blue"],  "answer": "green", "choices": ["blue","green","red"],    "question": "What colour comes next?" },
+          { "items": ["red","red","purple","red","red"],      "answer": "purple","choices": ["red","purple","orange"], "question": "What colour comes next?" },
+          { "items": ["yellow","blue","yellow","blue"],       "answer": "yellow","choices": ["blue","yellow","pink"],  "question": "What colour comes next?" }
+        ]
+      },
+      "spelling": {
+        "timePerQuestion": 18,
+        "questions": [
+          { "question": "Which word is spelled correctly?",           "choices": ["BEATIFUL","BEAUTIFUL","BEAUTYFUL"],    "correct": 1 },
+          { "question": "Which word is spelled correctly?",           "choices": ["MAGICAL","MAGICKAL","MAJICAL"],        "correct": 0 },
+          { "question": "Fill in the missing letter: B R A V _",     "choices": ["A","E","I"],                           "correct": 1 },
+          { "question": "Which word is spelled correctly?",           "choices": ["ADVENTURE","ADVENTUURE","ADVENCHER"], "correct": 0 },
+          { "question": "Fill in the missing letter: F A I R Y",     "choices": ["F is first — is this right?","True","False"], "correct": 1 },
+          { "question": "Which word is spelled correctly?",           "choices": ["COURAGEOS","COURAGIOUS","COURAGEOUS"], "correct": 2 },
+          { "question": "Fill in the missing letter: S T O N _",     "choices": ["E","A","I"],                           "correct": 0 },
+          { "question": "Which word is spelled correctly?",           "choices": ["CHALENGE","CHALLENGE","CHALLANGE"],    "correct": 1 },
+          { "question": "Fill in the missing letter: L A K _",       "choices": ["I","E","A"],                           "correct": 1 }
+        ]
+      },
+      "memory": {
+        "timeLimit": 75,
+        "goldFlips": 10,
+        "silverFlips": 14,
+        "pairs": ["🌸","🦋","⭐","🌈","🐚"]
+      }
+    },
+    "baby-fish": {
+      "difficulty": 6,
+      "math": {
+        "timePerQuestion": 18,
+        "questions": [
+          { "a": 18, "b": 9,  "op": "+", "answer": 27, "choices": [25, 26, 27, 29] },
+          { "a": 36, "b": 17, "op": "-", "answer": 19, "choices": [17, 18, 19, 21] },
+          { "a": 13, "b": 8,  "op": "+", "answer": 21, "choices": [19, 20, 21, 23] },
+          { "a": 28, "b": 11, "op": "-", "answer": 17, "choices": [15, 16, 17, 19] },
+          { "a": 15, "b": 6,  "op": "+", "answer": 21, "choices": [19, 21, 22, 24] },
+          { "a": 40, "b": 18, "op": "-", "answer": 22, "choices": [20, 21, 22, 24] }
+        ]
+      },
+      "pattern": {
+        "timePerQuestion": 14,
+        "questions": [
+          { "items": ["blue","green","blue","green","blue"],          "answer": "green","choices": ["blue","green","yellow"],  "question": "What colour comes next?" },
+          { "items": ["orange","orange","blue","orange","orange"],    "answer": "blue", "choices": ["orange","blue","red"],    "question": "What colour comes next?" },
+          { "items": ["purple","pink","purple","pink"],               "answer": "purple","choices": ["pink","purple","blue"],  "question": "What colour comes next?" },
+          { "items": ["yellow","yellow","green","yellow","yellow"],   "answer": "green","choices": ["yellow","green","blue"],  "question": "What colour comes next?" },
+          { "items": ["red","blue","red","blue","red"],               "answer": "blue", "choices": ["red","blue","green"],     "question": "What colour comes next?" },
+          { "items": ["pink","green","pink","green"],                 "answer": "pink", "choices": ["green","pink","orange"],  "question": "What colour comes next?" }
+        ]
+      },
+      "spelling": {
+        "timePerQuestion": 18,
+        "questions": [
+          { "question": "Which word is spelled correctly?",           "choices": ["BUTTERFLY","BUTERFLY","BUTTERFLIE"],   "correct": 0 },
+          { "question": "Fill in the missing letter: W A T E R F A L _", "choices": ["K","L","N"],                       "correct": 1 },
+          { "question": "Which word is spelled correctly?",           "choices": ["SPLASHING","SPLASING","SPPLASHING"],   "correct": 0 },
+          { "question": "Fill in the missing letter: S H A L L O W _", "choices": ["E","S","T"],                         "correct": 1 },
+          { "question": "Which word is spelled correctly?",           "choices": ["GLITERING","GLISTENING","GLISTNING"],  "correct": 1 },
+          { "question": "Fill in the missing letter: R I P P L _",   "choices": ["I","E","A"],                           "correct": 1 },
+          { "question": "Which word is spelled correctly?",           "choices": ["COLECTION","COLLECTION","COLLECTOIN"], "correct": 1 },
+          { "question": "Fill in the missing letter: S P A R K L _", "choices": ["E","I","A"],                           "correct": 0 },
+          { "question": "Which word is spelled correctly?",           "choices": ["GLIMMERING","GLIMERING","GLIMMIRING"],"correct": 0 }
+        ]
+      },
+      "memory": {
+        "timeLimit": 75,
+        "goldFlips": 10,
+        "silverFlips": 14,
+        "pairs": ["🐟","🌊","🪸","🐠","🦈"]
+      }
+    },
+    "fairy-ring": {
+      "difficulty": 7,
+      "math": {
+        "timePerQuestion": 15,
+        "questions": [
+          { "a": 24, "b": 8,  "op": "+", "answer": 32, "choices": [30, 31, 32, 34] },
+          { "a": 45, "b": 19, "op": "-", "answer": 26, "choices": [24, 25, 26, 28] },
+          { "a": 17, "b": 15, "op": "+", "answer": 32, "choices": [30, 32, 33, 35] },
+          { "a": 50, "b": 23, "op": "-", "answer": 27, "choices": [25, 26, 27, 29] },
+          { "a": 19, "b": 13, "op": "+", "answer": 32, "choices": [30, 31, 32, 34] },
+          { "a": 38, "b": 16, "op": "-", "answer": 22, "choices": [20, 21, 22, 24] }
+        ]
+      },
+      "pattern": {
+        "timePerQuestion": 12,
+        "questions": [
+          { "items": ["red","blue","green","red","blue"],         "answer": "green",  "choices": ["green","red","blue"],     "question": "What colour comes next?" },
+          { "items": ["pink","yellow","pink","yellow","pink"],    "answer": "yellow", "choices": ["pink","yellow","purple"],  "question": "What colour comes next?" },
+          { "items": ["blue","blue","orange","blue","blue"],      "answer": "orange", "choices": ["blue","orange","green"],   "question": "What colour comes next?" },
+          { "items": ["green","purple","green","purple"],         "answer": "green",  "choices": ["purple","green","yellow"], "question": "What colour comes next?" },
+          { "items": ["red","red","red","blue","red","red","red"],"answer": "blue",   "choices": ["red","blue","green"],      "question": "What colour comes next?" },
+          { "items": ["orange","pink","blue","orange","pink"],    "answer": "blue",   "choices": ["orange","pink","blue"],    "question": "What colour comes next?" }
+        ]
+      },
+      "spelling": {
+        "timePerQuestion": 15,
+        "questions": [
+          { "question": "Which word is spelled correctly?",           "choices": ["MUSHROOM","MUSHRUME","MUSHROOME"],    "correct": 0 },
+          { "question": "Fill in the missing letter: G L I M M E R _","choices": ["I","S","E"],                         "correct": 0 },
+          { "question": "Which word is spelled correctly?",           "choices": ["ENCHANTED","ENCHANTTED","ENCHANTID"], "correct": 0 },
+          { "question": "Fill in the missing letter: M Y S T I C A _","choices": ["L","E","N"],                         "correct": 0 },
+          { "question": "Which word is spelled correctly?",           "choices": ["LUMINUOUS","LUMINOUS","LUMENOUS"],    "correct": 1 },
+          { "question": "Fill in the missing letter: W H I S P E R _","choices": ["S","E","D"],                         "correct": 0 },
+          { "question": "Which word is spelled correctly?",           "choices": ["CRYSTALL","CRYSTAL","CRIYSTAL"],      "correct": 1 },
+          { "question": "Fill in the missing letter: A N C I E N _", "choices": ["T","D","S"],                          "correct": 0 },
+          { "question": "Which word is spelled correctly?",           "choices": ["SECERET","SECRETE","SECRET"],         "correct": 2 }
+        ]
+      },
+      "memory": {
+        "timeLimit": 65,
+        "goldFlips": 9,
+        "silverFlips": 13,
+        "pairs": ["🌙","✨","🔮","💎","🦋"]
+      }
+    }
   }
 }

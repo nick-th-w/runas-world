@@ -45,7 +45,7 @@ export default function WorldMap({ quest, player, pendingCharacter, onPlayChapte
 
   const handleClick = (ch, idx) => {
     if (!isUnlocked(idx)) return
-    if (ch.id !== 1) return // only ch1 playable for now
+    if (ch.id > 2) return // only ch1 + ch2 playable
     onPlayChapter(ch.id)
   }
 
@@ -161,7 +161,7 @@ export default function WorldMap({ quest, player, pendingCharacter, onPlayChapte
             return (
               <g key={ch.id}
                 transform={`translate(${x},${y})`}
-                style={{ cursor: unlocked && ch.id === 1 ? 'pointer' : 'default' }}
+                style={{ cursor: unlocked && ch.id <= 2 ? 'pointer' : 'default' }}
                 onClick={() => handleClick(ch, idx)}
               >
                 {/* Pulse ring for current chapter */}
@@ -206,12 +206,19 @@ export default function WorldMap({ quest, player, pendingCharacter, onPlayChapte
 
       {/* Chapter 1 status bar at bottom */}
       <div className="map-bottom-bar">
-        {chaptersCompleted[0] ? (
-          <span>Chapter 1 complete! 🎉 <button className="btn-replay" onClick={() => onPlayChapter(1)}>Replay Ch 1</button></span>
-        ) : (
+        {!chaptersCompleted[0] ? (
           <button className="btn-primary" onClick={() => onPlayChapter(1)}>
-            {quest.phase !== 'meadow' ? 'Continue Chapter 1 →' : 'Begin Chapter 1 →'}
+            {quest.phase && quest.phase !== 'meadow' ? 'Continue Chapter 1 →' : 'Begin Chapter 1 →'}
           </button>
+        ) : !chaptersCompleted[1] ? (
+          <button className="btn-primary" onClick={() => onPlayChapter(2)}>
+            {quest.currentChapter === 2 ? 'Continue Chapter 2 →' : 'Begin Chapter 2 →'}
+          </button>
+        ) : (
+          <span>Chapters 1 &amp; 2 complete! 🎉
+            <button className="btn-replay" onClick={() => onPlayChapter(1)}>Replay Ch 1</button>
+            <button className="btn-replay" onClick={() => onPlayChapter(2)}>Replay Ch 2</button>
+          </span>
         )}
       </div>
     </div>

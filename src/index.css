@@ -1078,6 +1078,143 @@ body::before {
 }
 
 /* ══════════════════════════════════════════════════════════════════════
+   CHAPTER 2 SCENES
+   ══════════════════════════════════════════════════════════════════════ */
+
+.ch2-bedroom-morning, .ch2-village-path, .ch2-lakeshore,
+.ch2-lake-shallows, .ch2-deep-lake, .ch2-bedroom-night {
+  width: 100%; height: 100%; position: relative; overflow: hidden;
+}
+
+/* ── Lake Spirit challenge ───────────────────────────────────────────── */
+.spirit-challenge {
+  position: absolute; bottom: max(80px, calc(50px + env(safe-area-inset-bottom)));
+  left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  z-index: 50;
+}
+.spirit-pattern-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.spirit-orb {
+  width: 80px; height: 80px; border-radius: 50%;
+  cursor: pointer; border: 4px solid rgba(255,255,255,0.4);
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+.spirit-orb:hover { transform: scale(1.1); }
+.spirit-orb.orb-lit { border-color: #fff; }
+.spirit-hint {
+  color: #fff; font-size: 1rem; font-weight: bold;
+  background: rgba(0,0,0,0.4); border-radius: 20px;
+  padding: 8px 20px; text-align: center;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   TEETH RHYTHM GAME
+   ══════════════════════════════════════════════════════════════════════ */
+
+.rhythm-screen {
+  width: 100%; height: 100%; position: relative; overflow: hidden;
+  background: linear-gradient(180deg, #0f172a 0%, #1e3a5f 50%, #0e7490 100%);
+  display: flex; flex-direction: column;
+}
+
+/* Intro / result */
+.rhythm-intro, .rhythm-result-card {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 14px; padding: 28px 24px; margin: auto;
+  background: rgba(0,0,0,0.6); border-radius: 24px;
+  border: 3px solid rgba(255,255,255,0.2);
+  max-width: min(500px, 90vw);
+  text-align: center;
+}
+.rhythm-intro-title, .rhythm-result-title {
+  font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: bold;
+  color: #fde047;
+}
+.rhythm-intro-desc {
+  font-size: clamp(0.9rem, 2.2vw, 1.1rem); color: rgba(255,255,255,0.9);
+  line-height: 1.6;
+}
+
+.rhythm-win  { align-items: center; justify-content: center; }
+.rhythm-fail { align-items: center; justify-content: center; }
+
+/* HUD */
+.rhythm-hud {
+  position: absolute; top: 8px; left: 0; right: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 16px;
+  background: rgba(0,0,0,0.5);
+  z-index: 30;
+}
+.rhythm-lives { font-size: 1.3rem; display: flex; gap: 4px; }
+.rhythm-score { font-size: 1.1rem; font-weight: bold; color: #fde047; }
+.rhythm-speed { font-size: 0.85rem; color: #7dd3fc; }
+
+/* Golden burst */
+.golden-burst {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 80;
+  font-size: clamp(1.4rem, 4vw, 2rem); font-weight: bold; color: #fde047;
+  text-shadow: 0 0 20px rgba(253,224,71,0.8);
+  animation: goldenPop 1.8s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes goldenPop {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+  20%  { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+  80%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -60%) scale(1); }
+}
+
+/* 4 lanes */
+.rhythm-lanes {
+  display: flex; flex: 1; margin-top: 44px;
+  gap: 4px; padding: 0 4px;
+  min-height: 0;
+}
+.rhythm-lane {
+  flex: 1; position: relative; overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  border: 2px solid rgba(255,255,255,0.12);
+  border-radius: 8px; cursor: pointer;
+  transition: background 0.1s;
+}
+.rhythm-lane:active, .rhythm-lane.lane-flash {
+  background: rgba(255,255,255,0.12);
+}
+.rhythm-hit-zone {
+  position: absolute; bottom: 60px; left: 0; right: 0;
+  height: 4px; border-top: 3px dashed currentColor; opacity: 0.5;
+}
+.rhythm-tap-btn {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  border-radius: 0 0 6px 6px;
+  opacity: 0.85;
+}
+
+/* Teeth */
+.rhythm-tooth {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  border-radius: 40% 40% 30% 30% / 30% 30% 40% 40%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; cursor: pointer;
+  transition: left 0.1s;
+}
+.golden-tooth {
+  animation: goldenPulse 0.4s ease-in-out infinite alternate;
+}
+@keyframes goldenPulse {
+  from { box-shadow: 0 0 10px rgba(255,215,0,0.6); }
+  to   { box-shadow: 0 0 24px rgba(255,215,0,1); }
+}
+.caught-tooth { opacity: 0; transform: translateX(-50%) scale(1.4) !important; }
+
+/* ══════════════════════════════════════════════════════════════════════
    PUZZLE ENGINE
    ══════════════════════════════════════════════════════════════════════ */
 

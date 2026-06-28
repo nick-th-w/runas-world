@@ -7,24 +7,38 @@ import SollyPopup from './components/SollyPopup'
 import Meadow from './scenes/Meadow'
 import Forest from './scenes/Forest'
 import SunnyHill from './scenes/SunnyHill'
+import Chapter2 from './scenes/Chapter2'
 import PenaltyShootout from './scenes/PenaltyShootout'
 import { useQuest } from './hooks/useQuest'
 import { useSpeech } from './hooks/useSpeech'
+import chapters from './data/chapters.json'
 
-const SCENE_NAMES = {
+const CH1_SCENE_NAMES = {
   meadow:    'Cosy Meadow',
   forest:    'Whispering Forest',
   sunnyhill: 'Sunny Hill',
 }
+const CH2_SCENE_NAMES = {
+  'bedroom-morning': 'Runa\'s Bedroom',
+  'village-path':    'Village Path',
+  'lakeshore':       'The Lakeshore',
+  'lake-shallows':   'Lake Shallows',
+  'deep-lake':       'Deep Lake',
+  'bedroom-night':   'Runa\'s Bedroom',
+}
 
 function GameToolbar({ quest, onMap, onBook }) {
-  const { medalTotals, phase } = quest
+  const { medalTotals, phase, ch2Phase, currentChapter } = quest
+  const ch = chapters[(currentChapter || 1) - 1]
+  const sceneName = currentChapter === 2
+    ? (CH2_SCENE_NAMES[ch2Phase] || '')
+    : (CH1_SCENE_NAMES[phase] || '')
   return (
     <div className="game-toolbar">
       <button className="toolbar-btn" onClick={onMap}>← Map</button>
       <div className="toolbar-center">
-        <span className="toolbar-chapter">Ch 1 · The Lost Letter</span>
-        <span className="toolbar-scene">{SCENE_NAMES[phase] || ''}</span>
+        <span className="toolbar-chapter">Ch {currentChapter || 1} · {ch?.title}</span>
+        <span className="toolbar-scene">{sceneName}</span>
       </div>
       <div className="toolbar-right">
         <span className="toolbar-medals">
@@ -48,11 +62,10 @@ export default function App() {
   const [pendingCharacter, setPendingCharacter] = useState(null)
   const [showCharacterModal, setShowCharacterModal] = useState(false)
   const [showSollyPopup, setShowSollyPopup] = useState(false)
-  const { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty } = useQuest()
+  const { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty, startCh2, advanceCh2, completeCh2Main } = useQuest()
   const speech = useSpeech()
 
   const handlePlayChapter = (chapterId) => {
-    // Apply any pending character swap before starting the chapter
     if (pendingCharacter) {
       setPlayer((p) => {
         const next = { ...p, character: pendingCharacter }
@@ -61,7 +74,12 @@ export default function App() {
       })
       setPendingCharacter(null)
     }
-    if (chapterId === 1 && quest.chaptersCompleted[0]) resetChapter()
+    if (chapterId === 1) {
+      if (quest.chaptersCompleted[0]) resetChapter()
+      else advance({ currentChapter: 1 })
+    } else if (chapterId === 2) {
+      startCh2()
+    }
     setScreen('game')
   }
 
@@ -110,16 +128,25 @@ export default function App() {
         <div className="game-layout">
           <GameToolbar quest={quest} onMap={goMap} onBook={() => setScreen('book')} />
           <div className="game-content">
-            {quest.phase === 'meadow' && (
-              <Meadow {...sharedProps} onLeave={() => {}} />
+            {/* Chapter 1 */}
+            {(quest.currentChapter === 1 || !quest.currentChapter) && (
+              <>
+                {quest.phase === 'meadow' && <Meadow {...sharedProps} onLeave={() => {}} />}
+                {quest.phase === 'forest' && <Forest {...sharedProps} onLeave={() => {}} />}
+                {quest.phase === 'sunnyhill' && (
+                  <SunnyHill {...sharedProps} completeMain={completeMain} onComplete={handleChapterComplete} />
+                )}
+              </>
             )}
-            {quest.phase === 'forest' && (
-              <Forest {...sharedProps} onLeave={() => {}} />
-            )}
-            {quest.phase === 'sunnyhill' && (
-              <SunnyHill
-                {...sharedProps}
-                completeMain={completeMain}
+            {/* Chapter 2 */}
+            {quest.currentChapter === 2 && (
+              <Chapter2
+                player={player}
+                quest={quest}
+                speech={speech}
+                advanceCh2={advanceCh2}
+                completeSideQuest={completeSideQuest}
+                completeMain={completeCh2Main}
                 onComplete={handleChapterComplete}
               />
             )}
