@@ -34,7 +34,7 @@ function MedalBadge({ medal }) {
   return <span className="node-medal">{emoji}</span>
 }
 
-export default function WorldMap({ quest, onPlayChapter, onStickerBook, onPenalty }) {
+export default function WorldMap({ quest, player, pendingCharacter, onPlayChapter, onStickerBook, onPenalty, onChangeCharacter }) {
   const { chaptersCompleted, questBests, medalTotals, penaltyUnlocked } = quest
   const showBall = chaptersCompleted[0] // visible after ch1 complete (flashing until tapped, bouncing after)
 
@@ -58,6 +58,9 @@ export default function WorldMap({ quest, onPlayChapter, onStickerBook, onPenalt
           <span>🥈 {medalTotals.silver}</span>
           <span>🥇 {medalTotals.gold}</span>
         </div>
+        <button className="btn-book" onClick={onChangeCharacter}>
+          🐾 {pendingCharacter ? '(changing…)' : 'Change Character'}
+        </button>
         <button className="btn-book" onClick={onStickerBook}>📖 Sticker Book</button>
       </div>
 

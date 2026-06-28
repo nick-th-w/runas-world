@@ -636,6 +636,78 @@ body::before {
   to   { opacity: 1;   transform: scale(1.15); }
 }
 
+/* ── Character change modal ──────────────────────────────────────────── */
+
+.char-modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.char-modal {
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  border-radius: 28px 30px 26px 30px / 30px 26px 30px 28px;
+  padding: 24px 28px 28px;
+  max-width: min(560px, 94vw);
+  width: 100%;
+  position: relative;
+  box-shadow: 6px 8px 0 rgba(59,31,10,0.25);
+  animation: popIn 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+
+.char-modal-close {
+  position: absolute; top: 14px; right: 16px;
+  font-family: inherit; font-size: 1.1rem; font-weight: bold;
+  background: none; border: 2px solid rgba(59,31,10,0.2);
+  border-radius: 50%; width: 32px; height: 32px;
+  cursor: pointer; color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.1s;
+}
+.char-modal-close:hover { background: rgba(59,31,10,0.08); }
+
+.char-modal-title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--purple);
+  text-align: center;
+  text-shadow: 2px 2px 0 var(--pink);
+  margin-bottom: 4px;
+}
+
+.char-modal-sub {
+  font-size: 0.9rem; color: #6d3a1a;
+  text-align: center; margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+.char-modal-grid {
+  display: flex; gap: 12px; justify-content: center;
+  flex-wrap: wrap; margin-bottom: 20px;
+}
+
+/* Reuses .animal-card styles; just tighter sizing here */
+.char-modal .animal-card {
+  min-width: 90px; min-height: 110px;
+  padding: 10px 12px;
+}
+
+.current-badge {
+  font-size: 0.62rem; font-weight: bold;
+  background: var(--purple); color: #fff;
+  border-radius: 10px; padding: 1px 7px;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
 @keyframes ballBounce {
   from { transform: translateY(0); }
   to   { transform: translateY(-10px); }
