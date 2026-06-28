@@ -170,7 +170,7 @@ export default function SunnyHill({ player, quest, speech, completeMain, onCompl
         </div>
       )}
 
-      <div className="scene-label">Sunny Hill</div>
+      {/* scene label now in GameToolbar */}
     </SunnyHillScene>
   )
 }

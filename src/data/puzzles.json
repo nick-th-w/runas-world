@@ -1,47 +1,94 @@
 {
   "chapter1": {
-    "difficulty": 5,
-    "math": {
-      "timePerQuestion": 20,
-      "questions": [
-        { "a": 7,  "b": 5, "op": "+", "answer": 12, "choices": [10, 11, 12, 14] },
-        { "a": 14, "b": 6, "op": "-", "answer": 8,  "choices": [6,  7,  8,  9]  },
-        { "a": 9,  "b": 4, "op": "+", "answer": 13, "choices": [11, 12, 13, 15] },
-        { "a": 16, "b": 9, "op": "-", "answer": 7,  "choices": [5,  6,  7,  8]  },
-        { "a": 8,  "b": 7, "op": "+", "answer": 15, "choices": [13, 14, 15, 16] },
-        { "a": 13, "b": 5, "op": "-", "answer": 8,  "choices": [6,  7,  8,  9]  },
-        { "a": 6,  "b": 8, "op": "+", "answer": 14, "choices": [12, 13, 14, 15] },
-        { "a": 17, "b": 8, "op": "-", "answer": 9,  "choices": [7,  8,  9,  10] },
-        { "a": 5,  "b": 9, "op": "+", "answer": 14, "choices": [12, 13, 14, 16] }
-      ]
+    "butterfly": {
+      "difficulty": 5,
+      "math": {
+        "timePerQuestion": 20,
+        "questions": [
+          { "a": 7,  "b": 5, "op": "+", "answer": 12, "choices": [10, 11, 12, 14] },
+          { "a": 14, "b": 6, "op": "-", "answer": 8,  "choices": [6,  7,  8,  9]  },
+          { "a": 9,  "b": 4, "op": "+", "answer": 13, "choices": [11, 12, 13, 15] },
+          { "a": 16, "b": 9, "op": "-", "answer": 7,  "choices": [5,  6,  7,  8]  },
+          { "a": 8,  "b": 7, "op": "+", "answer": 15, "choices": [13, 14, 15, 16] },
+          { "a": 13, "b": 5, "op": "-", "answer": 8,  "choices": [6,  7,  8,  9]  },
+          { "a": 6,  "b": 8, "op": "+", "answer": 14, "choices": [12, 13, 14, 15] },
+          { "a": 17, "b": 8, "op": "-", "answer": 9,  "choices": [7,  8,  9,  10] },
+          { "a": 5,  "b": 9, "op": "+", "answer": 14, "choices": [12, 13, 14, 16] }
+        ]
+      },
+      "pattern": {
+        "timePerQuestion": 15,
+        "questions": [
+          { "items": ["red","blue","red","blue","red"],          "answer": "blue",   "choices": ["blue","red","green","yellow"],   "question": "What colour comes next?" },
+          { "items": ["green","green","yellow","green","green"],  "answer": "yellow", "choices": ["yellow","green","blue","red"],   "question": "What colour comes next?" },
+          { "items": ["pink","purple","pink","purple"],           "answer": "pink",   "choices": ["pink","purple","orange","blue"], "question": "What colour comes next?" },
+          { "items": ["red","red","blue","red","red"],            "answer": "blue",   "choices": ["blue","red","green","yellow"],   "question": "What colour comes next?" },
+          { "items": ["yellow","green","yellow","green","yellow"],"answer": "green",  "choices": ["green","yellow","blue","pink"],  "question": "What colour comes next?" },
+          { "items": ["pink","pink","orange","pink","pink"],      "answer": "orange", "choices": ["orange","pink","blue","green"],  "question": "What colour comes next?" }
+        ]
+      },
+      "riddle": {
+        "timePerQuestion": 30,
+        "questions": [
+          { "text": "I have hands but cannot clap. What am I?",                   "answer": "A clock",     "choices": ["A clock",     "A glove",      "A tree"]       },
+          { "text": "What gets wetter the more it dries?",                        "answer": "A towel",     "choices": ["A towel",     "A sponge",     "A fish"]       },
+          { "text": "What goes up but never comes down?",                         "answer": "Your age",    "choices": ["Your age",    "A balloon",    "A kite"]       },
+          { "text": "I have an eye but cannot see. What am I?",                   "answer": "A needle",    "choices": ["A needle",    "A potato",     "A fish"]       },
+          { "text": "The more you take, the more you leave behind. What am I?",   "answer": "Footsteps",   "choices": ["Footsteps",   "Cookies",      "Sand"]         },
+          { "text": "What travels the world but stays in one corner?",            "answer": "A stamp",     "choices": ["A stamp",     "A butterfly",  "A coin"]       }
+        ]
+      },
+      "memory": {
+        "timeLimit": 90,
+        "goldFlips": 12,
+        "silverFlips": 16,
+        "pairs": ["🌸", "🦋", "⭐", "🌈"]
+      }
     },
-    "pattern": {
-      "timePerQuestion": 15,
-      "questions": [
-        { "items": ["red","blue","red","blue","red"],         "answer": "blue",   "choices": ["blue","red","green","yellow"],   "question": "What colour comes next?" },
-        { "items": ["green","green","yellow","green","green"],"answer": "yellow", "choices": ["yellow","green","blue","red"],   "question": "What colour comes next?" },
-        { "items": ["pink","purple","pink","purple"],         "answer": "pink",   "choices": ["pink","purple","orange","blue"], "question": "What colour comes next?" },
-        { "items": ["red","red","blue","red","red"],          "answer": "blue",   "choices": ["blue","red","green","yellow"],   "question": "What colour comes next?" },
-        { "items": ["yellow","green","yellow","green","yellow"],"answer":"green", "choices": ["green","yellow","blue","pink"],  "question": "What colour comes next?" },
-        { "items": ["pink","pink","orange","pink","pink"],    "answer": "orange", "choices": ["orange","pink","blue","green"],  "question": "What colour comes next?" }
-      ]
-    },
-    "riddle": {
-      "timePerQuestion": 30,
-      "questions": [
-        { "text": "I have hands but cannot clap. What am I?",                                        "answer": "A clock",     "choices": ["A clock",     "A glove",       "A tree"]       },
-        { "text": "What gets wetter the more it dries?",                                             "answer": "A towel",     "choices": ["A towel",     "A sponge",      "A fish"]       },
-        { "text": "What goes up but never comes down?",                                              "answer": "Your age",    "choices": ["Your age",    "A balloon",     "A kite"]       },
-        { "text": "I have an eye but cannot see. What am I?",                                        "answer": "A needle",    "choices": ["A needle",    "A potato",      "A fish"]       },
-        { "text": "The more you take, the more you leave behind. What am I?",                        "answer": "Footsteps",   "choices": ["Footsteps",   "Cookies",       "Sand"]         },
-        { "text": "What travels the world but stays in one corner?",                                 "answer": "A stamp",     "choices": ["A stamp",     "A butterfly",   "A coin"]       }
-      ]
-    },
-    "memory": {
-      "timeLimit": 90,
-      "goldFlips": 12,
-      "silverFlips": 16,
-      "pairs": ["🌸", "🦋", "⭐", "🌈"]
+    "acorns": {
+      "difficulty": 5,
+      "math": {
+        "timePerQuestion": 20,
+        "questions": [
+          { "a": 8,  "b": 6, "op": "+", "answer": 14, "choices": [12, 13, 14, 15] },
+          { "a": 13, "b": 7, "op": "-", "answer": 6,  "choices": [5,  6,  7,  8]  },
+          { "a": 5,  "b": 8, "op": "+", "answer": 13, "choices": [11, 12, 13, 14] },
+          { "a": 11, "b": 4, "op": "-", "answer": 7,  "choices": [5,  6,  7,  8]  },
+          { "a": 7,  "b": 9, "op": "+", "answer": 16, "choices": [14, 15, 16, 17] },
+          { "a": 15, "b": 6, "op": "-", "answer": 9,  "choices": [7,  8,  9,  10] },
+          { "a": 4,  "b": 8, "op": "+", "answer": 12, "choices": [10, 11, 12, 13] },
+          { "a": 18, "b": 9, "op": "-", "answer": 9,  "choices": [7,  8,  9,  10] },
+          { "a": 6,  "b": 7, "op": "+", "answer": 13, "choices": [11, 12, 13, 14] }
+        ]
+      },
+      "pattern": {
+        "timePerQuestion": 15,
+        "questions": [
+          { "items": ["orange","green","orange","green","orange"],    "answer": "green",  "choices": ["green","orange","blue","pink"],    "question": "What colour comes next?" },
+          { "items": ["blue","blue","pink","blue","blue"],            "answer": "pink",   "choices": ["pink","blue","yellow","green"],    "question": "What colour comes next?" },
+          { "items": ["yellow","red","yellow","red"],                 "answer": "yellow", "choices": ["yellow","red","purple","blue"],    "question": "What colour comes next?" },
+          { "items": ["green","green","blue","green","green"],        "answer": "blue",   "choices": ["blue","green","orange","red"],     "question": "What colour comes next?" },
+          { "items": ["red","orange","red","orange","red"],           "answer": "orange", "choices": ["orange","red","green","purple"],   "question": "What colour comes next?" },
+          { "items": ["purple","yellow","purple","yellow","purple"],  "answer": "yellow", "choices": ["yellow","purple","pink","blue"],   "question": "What colour comes next?" }
+        ]
+      },
+      "riddle": {
+        "timePerQuestion": 30,
+        "questions": [
+          { "text": "What has to be broken before you can use it?",               "answer": "An egg",      "choices": ["An egg",      "A promise",    "A door"]       },
+          { "text": "I am tall when young and short when old. What am I?",        "answer": "A candle",    "choices": ["A candle",    "A person",     "A tree"]       },
+          { "text": "What month of the year has 28 days?",                        "answer": "All of them", "choices": ["All of them", "February",     "October"]      },
+          { "text": "I have teeth but cannot eat. What am I?",                    "answer": "A comb",      "choices": ["A comb",      "A shark",      "A zipper"]     },
+          { "text": "What can you catch but not throw?",                          "answer": "A cold",      "choices": ["A cold",      "A ball",       "A fish"]       },
+          { "text": "What is always in front of you but cannot be seen?",         "answer": "The future",  "choices": ["The future",  "Your nose",    "Tomorrow"]     }
+        ]
+      },
+      "memory": {
+        "timeLimit": 90,
+        "goldFlips": 12,
+        "silverFlips": 16,
+        "pairs": ["🌙", "🍎", "🐸", "🦊"]
+      }
     }
   }
 }

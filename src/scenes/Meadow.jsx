@@ -125,7 +125,7 @@ export default function Meadow({ player, speech, advance, onLeave }) {
         </div>
       )}
 
-      <div className="scene-label">Cosy Meadow</div>
+      {/* scene label now in GameToolbar */}
     </MeadowScene>
   )
 }

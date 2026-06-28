@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import puzzleData from '../data/puzzles.json'
+import puzzleDB from '../data/puzzles.json'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -353,6 +353,10 @@ function MemoryPuzzle({ data, onComplete }) {
       .map((emoji, i) => ({ id: i, emoji, flipped: false, matched: false }))
       .sort(() => Math.random() - 0.5)
   )
+  // Pre-compute a slight random tilt per card for the scattered-on-table look
+  const [rotations] = useState(() =>
+    Array.from({ length: pairs.length * 2 }, () => (Math.random() - 0.5) * 10)
+  )
   const [cardState, setCardState] = useState(cards)
   const [selected, setSelected] = useState([])
   const [flipCount, setFlipCount] = useState(0)
@@ -431,10 +435,11 @@ function MemoryPuzzle({ data, onComplete }) {
       <Timer key="memory" seconds={timeLimit} running={!timedOut && matchCount < pairs.length} onTimeout={handleTimeout} />
       {timedOut && <div className="result-flash wrong">Time's up! Keep practising!</div>}
       <div className="memory-grid">
-        {cardState.map((card) => (
+        {cardState.map((card, idx) => (
           <button
             key={card.id}
             className={`memory-card ${card.flipped || card.matched ? 'face-up' : ''} ${card.matched ? 'matched' : ''}`}
+            style={{ '--rot': `${rotations[idx]}deg` }}
             onClick={() => flip(card)}
             aria-label={card.flipped || card.matched ? card.emoji : 'Hidden card'}
           >
@@ -484,8 +489,8 @@ function PuzzleResult({ scores, onAccept, onRetry }) {
 
 const PUZZLE_COMPONENTS = { math: MathPuzzle, pattern: PatternPuzzle, riddle: RiddlePuzzle, memory: MemoryPuzzle }
 
-export default function PuzzleSet({ chapterId = 1, onComplete }) {
-  const data = puzzleData[`chapter${chapterId}`]
+export default function PuzzleSet({ chapterId = 1, questId = 'butterfly', onComplete }) {
+  const pool = puzzleDB[`chapter${chapterId}`][questId]
   const [types, setTypes] = useState(() => pickPuzzleTypes())
   const [current, setCurrent] = useState(0) // 0-2 = puzzle index, 3 = results
   const [scores, setScores] = useState([])
@@ -509,10 +514,10 @@ export default function PuzzleSet({ chapterId = 1, onComplete }) {
 
   const type = types[current]
   const Component = PUZZLE_COMPONENTS[type]
-  const puzzleData2 = data[type]
+  const typeData = pool[type]
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(253,246,227,0.97)' }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex: 150, background: 'rgba(253,246,227,0.97)', display:'flex', flexDirection:'column' }}>
       <div className="puzzle-progress-bar">
         Puzzle {current + 1} of 3 —{' '}
         {types.map((t, i) => (
@@ -521,7 +526,7 @@ export default function PuzzleSet({ chapterId = 1, onComplete }) {
           </span>
         ))}
       </div>
-      <Component key={`${type}-${current}`} data={puzzleData2} onComplete={handlePuzzleDone} />
+      <Component key={`${type}-${current}`} data={typeData} onComplete={handlePuzzleDone} />
     </div>
   )
 }

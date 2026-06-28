@@ -83,7 +83,7 @@ function ButterflyQuest({ player, speech, onComplete }) {
     )
   }
 
-  return <PuzzleSet chapterId={1} onComplete={onComplete} />
+  return <PuzzleSet chapterId={1} questId="butterfly" onComplete={onComplete} />
 }
 
 function AcornQuest({ player, speech, onComplete }) {
@@ -113,7 +113,7 @@ function AcornQuest({ player, speech, onComplete }) {
     )
   }
 
-  return <PuzzleSet chapterId={1} onComplete={onComplete} />
+  return <PuzzleSet chapterId={1} questId="acorns" onComplete={onComplete} />
 }
 
 // ── Main Forest scene ─────────────────────────────────────────────────────────
@@ -198,7 +198,7 @@ export default function Forest({ player, quest, speech, advance, completeSideQue
         </div>
       )}
 
-      <div className="scene-label">Whispering Forest</div>
+      {/* scene label now in GameToolbar */}
     </ForestScene>
   )
 }
