@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import rewardsData from '../data/rewards.json'
+import chapters from '../data/chapters.json'
 
-// ── Sticker art (same as before) ─────────────────────────────────────────────
+// ── Sticker art ───────────────────────────────────────────────────────────────
 
 function FlowerSticker() {
   return (
-    <svg viewBox="0 0 60 60" width="52" height="52">
+    <svg viewBox="0 0 60 60" width="64" height="64">
       {[0,60,120,180,240,300].map((deg) => (
         <ellipse key={deg} cx="30" cy="30" rx="8" ry="14" fill="#facc15" stroke="#d4a000" strokeWidth="1.5"
           transform={`rotate(${deg} 30 30) translate(0,-12)`} />
@@ -18,7 +19,7 @@ function FlowerSticker() {
 
 function KindHeartBadge() {
   return (
-    <svg viewBox="0 0 60 60" width="52" height="52">
+    <svg viewBox="0 0 60 60" width="64" height="64">
       <circle cx="30" cy="30" r="28" fill="#fce7f3" stroke="#e879f9" strokeWidth="3" />
       <path d="M30,44 C30,44 14,34 14,22 C14,16 19,12 24,14 C27,15 30,18 30,18 C30,18 33,15 36,14 C41,12 46,16 46,22 C46,34 30,44 30,44 Z"
         fill="#ec4899" stroke="#be185d" strokeWidth="1.5" />
@@ -28,7 +29,7 @@ function KindHeartBadge() {
 
 function SharpEyesBadge() {
   return (
-    <svg viewBox="0 0 60 60" width="52" height="52">
+    <svg viewBox="0 0 60 60" width="64" height="64">
       <circle cx="30" cy="30" r="28" fill="#eff6ff" stroke="#60a5fa" strokeWidth="3" />
       <circle cx="26" cy="26" r="12" fill="none" stroke="#3b82f6" strokeWidth="3" />
       <line x1="35" y1="35" x2="46" y2="46" stroke="#3b82f6" strokeWidth="4" strokeLinecap="round" />
@@ -39,7 +40,7 @@ function SharpEyesBadge() {
 
 function FlowerCrownItem() {
   return (
-    <svg viewBox="0 0 80 40" width="72" height="36">
+    <svg viewBox="0 0 80 40" width="80" height="40">
       <path d="M10,20 Q20,6 30,20 Q40,6 50,20 Q60,6 70,20" stroke="#e879f9" strokeWidth="3" fill="none" strokeLinecap="round" />
       <circle cx="20" cy="14" r="7" fill="#fb923c" stroke="#d4a000" strokeWidth="1.5" />
       <circle cx="40" cy="10" r="7" fill="#facc15" stroke="#d4a000" strokeWidth="1.5" />
@@ -53,7 +54,7 @@ function FlowerCrownItem() {
 
 function GoldenGlovesSticker() {
   return (
-    <svg viewBox="0 0 100 60" width="72" height="44">
+    <svg viewBox="0 0 100 60" width="80" height="48">
       <g transform="translate(5,5)">
         <ellipse cx="22" cy="28" rx="20" ry="22" fill="#f59e0b" stroke="#d97706" strokeWidth="2" />
         <rect x="4" y="20" width="36" height="12" rx="5" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" />
@@ -72,9 +73,9 @@ function GoldenGlovesSticker() {
   )
 }
 
-function GoldTrophySticker2() {
+function GoldTrophySticker() {
   return (
-    <svg viewBox="0 0 60 80" width="40" height="52">
+    <svg viewBox="0 0 60 80" width="48" height="64">
       <path d="M14,20 L14,52 Q30,62 46,52 L46,20 Z" fill="#fbbf24" stroke="#d97706" strokeWidth="2" />
       <path d="M14,26 Q4,26 4,38 Q4,50 14,50" fill="none" stroke="#d97706" strokeWidth="5" strokeLinecap="round" />
       <path d="M46,26 Q56,26 56,38 Q56,50 46,50" fill="none" stroke="#d97706" strokeWidth="5" strokeLinecap="round" />
@@ -93,105 +94,116 @@ const REWARD_ART = {
   sharpEyes:     SharpEyesBadge,
   flowerCrown:   FlowerCrownItem,
   goldenGloves:  GoldenGlovesSticker,
-  goldTrophy:    GoldTrophySticker2,
+  goldTrophy:    GoldTrophySticker,
 }
 
-// ── Placeholder sticker (future chapters) ────────────────────────────────────
+// ── Chapter → sticker mapping (add new chapters here as they ship) ────────────
 
-function PlaceholderSticker({ n }) {
-  return (
-    <svg viewBox="0 0 60 60" width="52" height="52">
-      <rect x="4" y="4" width="52" height="52" rx="8"
-        fill="none" stroke="#d1d5db" strokeWidth="2" strokeDasharray="5 3" />
-      <text x="30" y="36" textAnchor="middle" fontSize="20" fill="#d1d5db">?</text>
-    </svg>
-  )
+const CHAPTER_STICKERS = {
+  1: ['kindHeart', 'sharpEyes', 'flowerSticker', 'flowerCrown'],
 }
 
-// ── Book page flip ────────────────────────────────────────────────────────────
-
-const SLOTS_PER_SPREAD = 20 // 10 per page × 2 pages
-const TOTAL_SLOTS = 40      // 4 chapters worth of future stickers
-
-function buildSlots(earnedSet) {
-  const rewardList = Object.entries(rewardsData) // currently 4
-  return Array.from({ length: TOTAL_SLOTS }, (_, i) => {
-    if (i < rewardList.length) {
-      const [id, reward] = rewardList[i]
-      return { type: earnedSet.has(id) ? 'earned' : 'locked', id, reward }
-    }
-    return { type: 'placeholder', n: i }
-  })
+const SOLLY_STICKERS = {
+  1: ['goldenGloves', 'goldTrophy'],
 }
 
-function StickerSlot({ slot, index }) {
+const SOLLY_GAMES = {
+  1: { title: 'Penalty Shootout', emoji: '⚽' },
+}
+
+const SLOTS_PER_PAGE = 6
+
+function buildSlots(ids, earnedSet) {
+  const slots = (ids || []).map(id => ({
+    type: earnedSet.has(id) ? 'earned' : 'locked',
+    id,
+    name: rewardsData[id]?.name || id,
+  }))
+  while (slots.length < SLOTS_PER_PAGE) {
+    slots.push({ type: 'placeholder' })
+  }
+  return slots
+}
+
+// ── Sticker slot ──────────────────────────────────────────────────────────────
+
+function StickerSlot({ slot, isDark }) {
   if (slot.type === 'earned') {
     const Art = REWARD_ART[slot.id]
     return (
-      <div className="sticker-slot earned" title={slot.reward.name}>
-        <div className="sticker-art">{Art && <Art />}</div>
-        <p className="sticker-slot-name">{slot.reward.name}</p>
+      <div className="sb-slot sb-earned">
+        <div className="sb-art">{Art && <Art />}</div>
+        <p className="sb-name">{slot.name}</p>
       </div>
     )
   }
   if (slot.type === 'locked') {
     const Art = REWARD_ART[slot.id]
     return (
-      <div className="sticker-slot locked" title={`Earn: ${slot.reward.name}`}>
-        <div className="sticker-art" style={{ opacity: 0.18 }}>{Art && <Art />}</div>
-        <p className="sticker-slot-name" style={{ opacity: 0.3 }}>?</p>
+      <div className="sb-slot sb-locked">
+        <div className="sb-art" style={{ opacity: 0.18 }}>{Art && <Art />}</div>
+        <p className="sb-name" style={{ opacity: 0.3 }}>?</p>
       </div>
     )
   }
   return (
-    <div className="sticker-slot placeholder">
-      <PlaceholderSticker n={index} />
+    <div className="sb-slot sb-placeholder">
+      <svg viewBox="0 0 70 70" width="52" height="52">
+        <rect x="4" y="4" width="62" height="62" rx="10"
+          fill="none" stroke={isDark ? '#a78bfa' : '#d1d5db'}
+          strokeWidth="2.5" strokeDasharray="6 4" opacity="0.4" />
+        <text x="35" y="42" textAnchor="middle" fontSize="22"
+          fill={isDark ? '#a78bfa' : '#d1d5db'} opacity="0.35">?</text>
+      </svg>
     </div>
   )
 }
 
-// ── Main StickerBook ──────────────────────────────────────────────────────────
+// ── Main component ────────────────────────────────────────────────────────────
+
+const CHAPTER_COUNT = chapters.length // 11
 
 export default function StickerBook({ quest, playerName, onBack }) {
   const earnedSet = new Set(quest.rewards)
-  const slots = buildSlots(earnedSet)
-  const totalSpreads = Math.ceil(slots.length / SLOTS_PER_SPREAD)
-
   const [spread, setSpread] = useState(0)
   const [flipping, setFlipping] = useState(false)
   const [flipDir, setFlipDir] = useState('forward')
 
   const goSpread = (dir) => {
     const next = spread + (dir === 'forward' ? 1 : -1)
-    if (next < 0 || next >= totalSpreads) return
+    if (next < 0 || next >= CHAPTER_COUNT) return
     setFlipDir(dir)
     setFlipping(true)
     setTimeout(() => { setSpread(next); setFlipping(false) }, 400)
   }
 
-  const spreadSlots = slots.slice(spread * SLOTS_PER_SPREAD, (spread + 1) * SLOTS_PER_SPREAD)
-  const leftSlots  = spreadSlots.slice(0, 10)
-  const rightSlots = spreadSlots.slice(10, 20)
-  const earnedCount = quest.rewards.length
+  const chNum = spread + 1
+  const chapter = chapters[spread]
+  const chSlots = buildSlots(CHAPTER_STICKERS[chNum], earnedSet)
+  const sollySlots = buildSlots(SOLLY_STICKERS[chNum], earnedSet)
+  const sollyGame = SOLLY_GAMES[chNum] || { title: 'Coming soon…', emoji: '🎮' }
 
   return (
     <div className="screen sticker-book-screen">
+      {/* Top bar */}
       <div className="book-topbar">
         <button className="btn-back" onClick={onBack}>← Back to Map</button>
         <h1 className="book-title">📖 Sticker Book</h1>
-        <span className="book-count">{earnedCount} / {TOTAL_SLOTS} stickers</span>
+        <span className="book-count">{earnedSet.size} stickers earned</span>
       </div>
 
-      {/* Book container */}
+      {/* Book */}
       <div className="book-container">
         <div className={`book-spread ${flipping ? `flipping-${flipDir}` : ''}`}>
-          {/* Left page */}
-          <div className="book-page left-page">
-            <div className="page-corner-label">Runa&apos;s Collection</div>
-            <div className="sticker-page-grid">
-              {leftSlots.map((slot, i) => (
-                <StickerSlot key={i} slot={slot} index={spread * SLOTS_PER_SPREAD + i} />
-              ))}
+
+          {/* LEFT — Chapter page */}
+          <div className="book-page left-page ch-page">
+            <div className="sb-page-header ch-header">
+              <span className="sb-ch-num">Chapter {chNum}</span>
+              <span className="sb-ch-title">{chapter.title}</span>
+            </div>
+            <div className="sb-grid">
+              {chSlots.map((slot, i) => <StickerSlot key={i} slot={slot} isDark={false} />)}
             </div>
             <div className="page-number">p. {spread * 2 + 1}</div>
           </div>
@@ -199,30 +211,33 @@ export default function StickerBook({ quest, playerName, onBack }) {
           {/* Spine */}
           <div className="book-spine" />
 
-          {/* Right page */}
-          <div className="book-page right-page">
-            <div className="page-corner-label">Chapter {spread + 1} onwards</div>
-            <div className="sticker-page-grid">
-              {rightSlots.map((slot, i) => (
-                <StickerSlot key={i} slot={slot} index={spread * SLOTS_PER_SPREAD + 10 + i} />
-              ))}
+          {/* RIGHT — Solly's game page */}
+          <div className="book-page right-page solly-pg">
+            <div className="sb-page-header solly-header">
+              <span className="sb-solly-emoji">{sollyGame.emoji}</span>
+              <span className="sb-solly-label">Solly&apos;s Secret Game</span>
+              <span className="sb-solly-sub">{sollyGame.title}</span>
             </div>
-            <div className="page-number">p. {spread * 2 + 2}</div>
+            <div className="sb-grid">
+              {sollySlots.map((slot, i) => <StickerSlot key={i} slot={slot} isDark={true} />)}
+            </div>
+            <div className="page-number" style={{ color: '#a78bfa' }}>p. {spread * 2 + 2}</div>
           </div>
+
         </div>
       </div>
 
-      {/* Page navigation */}
+      {/* Navigation */}
       <div className="book-nav">
         <button className="btn-page-turn" onClick={() => goSpread('back')} disabled={spread === 0}>
           ◀ Previous
         </button>
         <span className="spread-indicator">
-          {Array.from({ length: totalSpreads }, (_, i) => (
+          {Array.from({ length: CHAPTER_COUNT }, (_, i) => (
             <span key={i} className={`spread-dot ${i === spread ? 'active' : ''}`} />
           ))}
         </span>
-        <button className="btn-page-turn" onClick={() => goSpread('forward')} disabled={spread === totalSpreads - 1}>
+        <button className="btn-page-turn" onClick={() => goSpread('forward')} disabled={spread === CHAPTER_COUNT - 1}>
           Next ▶
         </button>
       </div>
