@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import CharacterSelect from './components/CharacterSelect'
+import WorldMap from './components/WorldMap'
 import StickerBook from './components/StickerBook'
 import Meadow from './scenes/Meadow'
 import Forest from './scenes/Forest'
@@ -8,17 +9,30 @@ import { useQuest } from './hooks/useQuest'
 import { useSpeech } from './hooks/useSpeech'
 
 export default function App() {
-  const [screen, setScreen] = useState('select') // select | game | book
+  const [screen, setScreen] = useState('select') // select | map | game | book
   const [player, setPlayer] = useState({ name: 'Runa', character: 'capybara' })
-  const { quest, advance, completeSideQuest, completeMain } = useQuest()
+  const { quest, advance, completeSideQuest, completeMain, resetChapter } = useQuest()
   const speech = useSpeech()
+
+  const handlePlayChapter = (chapterId) => {
+    if (chapterId === 1 && quest.chaptersCompleted[0]) resetChapter()
+    setScreen('game')
+  }
 
   const sharedProps = { player, quest, speech, advance, completeSideQuest }
 
   return (
     <div className="app">
       {screen === 'select' && (
-        <CharacterSelect onStart={(p) => { setPlayer(p); setScreen('game') }} />
+        <CharacterSelect onStart={(p) => { setPlayer(p); setScreen('map') }} />
+      )}
+
+      {screen === 'map' && (
+        <WorldMap
+          quest={quest}
+          onPlayChapter={handlePlayChapter}
+          onStickerBook={() => setScreen('book')}
+        />
       )}
 
       {screen === 'game' && quest.phase === 'meadow' && (
@@ -33,14 +47,12 @@ export default function App() {
         <SunnyHill
           {...sharedProps}
           completeMain={completeMain}
-          onComplete={() => setScreen('book')}
+          onComplete={() => setScreen('map')}
         />
       )}
 
       {screen === 'book' && (
-        <>
-          <StickerBook quest={quest} playerName={player.name} onBack={() => setScreen('game')} />
-        </>
+        <StickerBook quest={quest} playerName={player.name} onBack={() => setScreen('map')} />
       )}
     </div>
   )

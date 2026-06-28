@@ -1,0 +1,13 @@
+[
+  { "id": 1,  "title": "The Lost Letter",       "subtitle": "A tiny bee, a big adventure",               "biome": "forest",   "icon": "🌲", "mapX": 10, "mapY": 80, "color": "#4ade80" },
+  { "id": 2,  "title": "The Enchanted Lake",    "subtitle": "Secrets ripple beneath the surface",        "biome": "lake",     "icon": "💧", "mapX": 22, "mapY": 68, "color": "#60a5fa" },
+  { "id": 3,  "title": "The Crystal Caves",     "subtitle": "Darkness hides a glittering world",         "biome": "cave",     "icon": "💎", "mapX": 36, "mapY": 60, "color": "#a78bfa" },
+  { "id": 4,  "title": "The Blazing Desert",    "subtitle": "Sand dunes as tall as the sky",             "biome": "desert",   "icon": "☀️", "mapX": 50, "mapY": 72, "color": "#fb923c" },
+  { "id": 5,  "title": "The Whispering Ocean",  "subtitle": "The waves tell ancient stories",            "biome": "ocean",    "icon": "🌊", "mapX": 63, "mapY": 58, "color": "#38bdf8" },
+  { "id": 6,  "title": "The Cloudy Mountains",  "subtitle": "The peaks touch the clouds",                "biome": "mountain", "icon": "⛰️", "mapX": 48, "mapY": 42, "color": "#94a3b8" },
+  { "id": 7,  "title": "The Frozen Tundra",     "subtitle": "Everything here is made of ice",            "biome": "tundra",   "icon": "❄️", "mapX": 28, "mapY": 30, "color": "#bae6fd" },
+  { "id": 8,  "title": "The Ancient Ruins",     "subtitle": "Who built these mysterious towers?",        "biome": "ruins",    "icon": "🏛️", "mapX": 52, "mapY": 28, "color": "#d97706" },
+  { "id": 9,  "title": "The Lava Kingdom",      "subtitle": "The ground glows red hot beneath your feet","biome": "lava",     "icon": "🌋", "mapX": 68, "mapY": 38, "color": "#ef4444" },
+  { "id": 10, "title": "The Sky Islands",       "subtitle": "Floating worlds high above the clouds",     "biome": "sky",      "icon": "☁️", "mapX": 80, "mapY": 22, "color": "#818cf8" },
+  { "id": 11, "title": "The Starlight Palace",  "subtitle": "The final chapter... or is it?",            "biome": "stars",    "icon": "⭐", "mapX": 90, "mapY": 12, "color": "#fbbf24" }
+]
