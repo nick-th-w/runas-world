@@ -878,9 +878,16 @@ body::before {
 .penalty-answer-btn:hover { filter: brightness(1.1); transform: scaleY(1.03); }
 .penalty-answer-btn:active { filter: brightness(0.9); }
 
-.btn-left   { background: #3b82f6; border-right: 1.5px solid var(--ink); }
-.btn-centre { background: #8b5cf6; border-left: 1.5px solid var(--ink); border-right: 1.5px solid var(--ink); }
-.btn-right  { background: #ec4899; border-left: 1.5px solid var(--ink); }
+/* All same colour before tap */
+.btn-pa-left, .btn-pa-centre, .btn-pa-right { background: #4f46e5; }
+.btn-pa-left   { border-right: 1.5px solid var(--ink); }
+.btn-pa-centre { border-left: 1.5px solid var(--ink); border-right: 1.5px solid var(--ink); }
+.btn-pa-right  { border-left: 1.5px solid var(--ink); }
+
+/* Colour feedback after tap */
+.btn-feedback-correct { background: #16a34a !important; }
+.btn-feedback-wrong   { background: #dc2626 !important; }
+.btn-feedback-dim     { background: #374151 !important; opacity: 0.6; }
 
 .btn-dir-label {
   font-size: 0.7rem; font-weight: bold; color: rgba(255,255,255,0.7);
@@ -926,6 +933,148 @@ body::before {
 }
 .penalty-end-btns {
   display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+}
+
+/* Ball: snap to keeper on save */
+.penalty-ball.snap-left   { left: 26%; bottom: 48%; transform: translateX(-50%) scale(0.55); }
+.penalty-ball.snap-centre { left: 50%; bottom: 52%; transform: translateX(-50%) scale(0.55); }
+.penalty-ball.snap-right  { left: 74%; bottom: 48%; transform: translateX(-50%) scale(0.55); }
+
+/* ── Scoreboard ────────────────────────────────────────────────────── */
+.penalty-scoreboard {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 8px 18px;
+  background: rgba(0,0,0,0.7);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+}
+.scoreboard-inner {
+  display: flex; align-items: center; gap: 16px;
+}
+.scoreboard-team {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.scoreboard-label {
+  font-size: 0.65rem; font-weight: bold; color: rgba(255,255,255,0.6);
+  letter-spacing: 0.1em;
+}
+.scoreboard-number {
+  font-size: 1.8rem; font-weight: bold; line-height: 1;
+}
+.saves-num { color: #4ade80; }
+.goals-num { color: #f87171; }
+.scoreboard-divider { text-align: center; }
+.scoreboard-shot-count {
+  font-size: 0.75rem; color: rgba(255,255,255,0.5);
+}
+.scoreboard-dots {
+  display: flex; gap: 8px; font-size: 1.1rem;
+}
+.sdot { opacity: 0.35; }
+.sdot-save, .sdot-goal { opacity: 1; animation: popIn 0.3s ease-out; }
+
+/* ── Big shot result card ──────────────────────────────────────────── */
+.shot-result-card {
+  position: absolute; inset: 0; z-index: 70;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.result-card-inner {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 28px 52px;
+  border-radius: 24px;
+  border: 5px solid rgba(255,255,255,0.5);
+  box-shadow: 0 0 40px rgba(0,0,0,0.5), inset 0 0 30px rgba(255,255,255,0.1);
+  animation: resultCardPop 0.45s cubic-bezier(0.175,0.885,0.32,1.275);
+  min-width: min(280px, 70vw);
+}
+.card-save { background: rgba(22,163,74,0.88); }
+.card-goal { background: rgba(185,28,28,0.88); }
+.result-card-emoji { font-size: clamp(3.5rem, 10vw, 5rem); }
+.result-card-word {
+  font-size: clamp(2.2rem, 7vw, 3.5rem); font-weight: bold; color: #fff;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+  letter-spacing: 0.06em;
+}
+.result-card-score {
+  font-size: 1rem; color: rgba(255,255,255,0.85);
+}
+@keyframes resultCardPop {
+  from { transform: scale(0.3) rotate(-8deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ── Solly popup ───────────────────────────────────────────────────── */
+.solly-overlay {
+  position: fixed; inset: 0; z-index: 600;
+  background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.25s ease-out;
+}
+.solly-popup {
+  background: var(--cream);
+  border: 4px solid var(--ink);
+  border-radius: 28px 30px 26px 30px / 30px 26px 30px 28px;
+  padding: 20px 24px 24px;
+  max-width: min(580px, 95vw);
+  width: 100%;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  box-shadow: 6px 8px 0 rgba(59,31,10,0.25);
+  animation: popIn 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+.solly-header {
+  width: 100%;
+  background: var(--purple);
+  border-radius: 16px;
+  padding: 8px 16px;
+  text-align: center;
+}
+.solly-brand {
+  font-size: 1.1rem; font-weight: bold; color: #fff;
+  letter-spacing: 0.04em;
+}
+.solly-body {
+  display: flex; align-items: flex-start; gap: 14px;
+  width: 100%;
+}
+.solly-character { flex-shrink: 0; }
+.solly-bubble {
+  background: #fff; border: 2.5px solid var(--ink);
+  border-radius: 4px 20px 20px 20px;
+  padding: 12px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  position: relative;
+}
+.solly-bubble::before {
+  content: '';
+  position: absolute; left: -14px; top: 14px;
+  border: 7px solid transparent;
+  border-right-color: var(--ink);
+}
+.solly-bubble::after {
+  content: '';
+  position: absolute; left: -10px; top: 16px;
+  border: 6px solid transparent;
+  border-right-color: #fff;
+}
+.solly-text {
+  font-size: clamp(0.9rem, 2.2vw, 1.05rem); color: var(--ink); line-height: 1.5;
+}
+
+/* ── Change character button with mini SVG ─────────────────────────── */
+.btn-change-char {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px !important;
+}
+.char-mini-wrap {
+  display: flex; align-items: center;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
+.char-btn-label {
+  font-size: 0.85rem; font-weight: bold; white-space: nowrap;
 }
 
 /* ══════════════════════════════════════════════════════════════════════

@@ -1,4 +1,5 @@
 import chapters from '../data/chapters.json'
+import { CHARACTERS } from '../characters'
 
 // Converts mapX/mapY (0–100) to SVG coordinates in a 900×520 canvas
 const W = 900, H = 520
@@ -58,8 +59,12 @@ export default function WorldMap({ quest, player, pendingCharacter, onPlayChapte
           <span>🥈 {medalTotals.silver}</span>
           <span>🥇 {medalTotals.gold}</span>
         </div>
-        <button className="btn-book" onClick={onChangeCharacter}>
-          🐾 {pendingCharacter ? '(changing…)' : 'Change Character'}
+        <button className="btn-book btn-change-char" onClick={onChangeCharacter}
+          title={pendingCharacter ? `Switching to ${CHARACTERS[pendingCharacter]?.label}` : 'Change Character'}>
+          <span className="char-mini-wrap">
+            {(() => { const { Component } = CHARACTERS[pendingCharacter ?? player?.character ?? 'capybara']; return <Component size={28} hasCrown={false} /> })()}
+          </span>
+          <span className="char-btn-label">{pendingCharacter ? 'Switching…' : 'Change'}</span>
         </button>
         <button className="btn-book" onClick={onStickerBook}>📖 Sticker Book</button>
       </div>
@@ -109,32 +114,30 @@ export default function WorldMap({ quest, player, pendingCharacter, onPlayChapte
             <text key={i} x={x} y={y} fontSize="12" fill="#fbbf24" opacity="0.8">✦</text>
           ))}
 
-          {/* ⚽ Easter egg / penalty shortcut — near bottom-right of ch1 forest */}
+          {/* ⚽ Solly's Secret Game — on path between Ch1 and Ch2 */}
           {showBall && (
             <g
-              transform="translate(148, 468)"
+              transform="translate(144, 388)"
               style={{ cursor: 'pointer' }}
               onClick={() => onPenalty?.()}
             >
-              {/* glow ring (flashing if not yet unlocked, steady if unlocked) */}
-              <circle r="22" fill="rgba(255,255,100,0.15)"
-                style={{ animation: penaltyUnlocked
-                  ? 'ballBounce 0.7s ease-in-out infinite alternate'
-                  : 'eggFlash 0.9s ease-in-out infinite alternate' }} />
-              {/* ball */}
-              <text x="0" y="9" textAnchor="middle" fontSize="28"
-                style={{ animation: penaltyUnlocked
-                  ? 'ballBounce 0.7s ease-in-out infinite alternate'
-                  : 'eggFlash 0.9s ease-in-out infinite alternate',
-                  userSelect: 'none' }}>
+              {/* subtle glow before first unlock; static after */}
+              {!penaltyUnlocked && (
+                <circle r="20" fill="rgba(255,255,100,0.18)"
+                  style={{ animation: 'eggFlash 0.9s ease-in-out infinite alternate' }} />
+              )}
+              <text x="0" y="10" textAnchor="middle" fontSize="26"
+                style={{
+                  animation: !penaltyUnlocked ? 'eggFlash 0.9s ease-in-out infinite alternate' : 'none',
+                  userSelect: 'none',
+                }}>
                 ⚽
               </text>
-              {/* "secret!" whisper label, only before unlock */}
               {!penaltyUnlocked && (
-                <text x="0" y="32" textAnchor="middle" fontSize="8"
-                  fill="#fde047" opacity="0.8"
+                <text x="0" y="30" textAnchor="middle" fontSize="8"
+                  fill="#fde047" opacity="0.9"
                   style={{ animation: 'eggFlash 0.9s ease-in-out infinite alternate' }}>
-                  tap me!
+                  Solly&apos;s game!
                 </text>
               )}
             </g>

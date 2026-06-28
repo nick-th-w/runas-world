@@ -3,6 +3,7 @@ import CharacterSelect from './components/CharacterSelect'
 import WorldMap from './components/WorldMap'
 import StickerBook from './components/StickerBook'
 import CharacterModal from './components/CharacterModal'
+import SollyPopup from './components/SollyPopup'
 import Meadow from './scenes/Meadow'
 import Forest from './scenes/Forest'
 import SunnyHill from './scenes/SunnyHill'
@@ -46,6 +47,7 @@ export default function App() {
   })
   const [pendingCharacter, setPendingCharacter] = useState(null)
   const [showCharacterModal, setShowCharacterModal] = useState(false)
+  const [showSollyPopup, setShowSollyPopup] = useState(false)
   const { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty } = useQuest()
   const speech = useSpeech()
 
@@ -65,7 +67,7 @@ export default function App() {
 
   const handleChapterComplete = () => {
     setScreen('map')
-    setShowCharacterModal(true) // auto-pop after each chapter
+    setShowSollyPopup(true) // Solly appears first, then character modal
   }
 
   const handleCharacterConfirm = (newChar) => {
@@ -136,6 +138,14 @@ export default function App() {
 
       {screen === 'book' && (
         <StickerBook quest={quest} playerName={player.name} onBack={() => setScreen('map')} />
+      )}
+
+      {/* Solly popup fires first after chapter complete */}
+      {showSollyPopup && (
+        <SollyPopup
+          playerName={player.name}
+          onClose={() => { setShowSollyPopup(false); setShowCharacterModal(true) }}
+        />
       )}
 
       {/* Character modal overlays whatever screen is showing */}
