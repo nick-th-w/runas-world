@@ -27,25 +27,29 @@ function Timer({ seconds, running, onTimeout }) {
   const [left, setLeft] = useState(seconds)
   const fired = useRef(false)
 
+  // Keep a ref to onTimeout so we never capture a stale closure
+  const onTimeoutRef = useRef(onTimeout)
+  onTimeoutRef.current = onTimeout
+
   useEffect(() => {
     fired.current = false
     setLeft(seconds)
   }, [seconds])
 
+  // Decrement timer
   useEffect(() => {
     if (!running || left <= 0) return
-    const id = setInterval(() => {
-      setLeft((prev) => {
-        const next = prev - 1
-        if (next <= 0 && !fired.current) {
-          fired.current = true
-          onTimeout()
-        }
-        return Math.max(0, next)
-      })
-    }, 1000)
+    const id = setInterval(() => setLeft(p => Math.max(0, p - 1)), 1000)
     return () => clearInterval(id)
   }, [running, seconds]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Fire timeout in its own effect so it never runs inside a setState call
+  useEffect(() => {
+    if (left <= 0 && running && !fired.current) {
+      fired.current = true
+      onTimeoutRef.current()
+    }
+  }, [left, running])
 
   const pct = (left / seconds) * 100
   const color = pct > 60 ? '#4ade80' : pct > 25 ? '#fb923c' : '#ef4444'

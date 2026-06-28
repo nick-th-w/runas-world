@@ -2,5 +2,7 @@
   "kindHeart": { "id": "kindHeart", "name": "Kind Heart", "type": "badge", "desc": "Awarded for gently freeing the butterfly" },
   "sharpEyes": { "id": "sharpEyes", "name": "Sharp Eyes", "type": "badge", "desc": "Awarded for counting all 6 acorns" },
   "flowerSticker": { "id": "flowerSticker", "name": "Golden Flower", "type": "sticker", "desc": "Awarded for delivering the letter" },
-  "flowerCrown": { "id": "flowerCrown", "name": "Flower Crown", "type": "item", "desc": "A beautiful crown for completing the adventure" }
+  "flowerCrown":   { "id": "flowerCrown",   "name": "Flower Crown",   "type": "item",    "desc": "A beautiful crown for completing the adventure" },
+  "goldenGloves":  { "id": "goldenGloves",  "name": "Golden Gloves",  "type": "sticker", "desc": "Secret reward for saving 4+ penalties" },
+  "goldTrophy":    { "id": "goldTrophy",    "name": "Gold Trophy",    "type": "sticker", "desc": "Secret reward for a perfect 5/5 penalty shootout" }
 }

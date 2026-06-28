@@ -51,11 +51,49 @@ function FlowerCrownItem() {
   )
 }
 
+function GoldenGlovesSticker() {
+  return (
+    <svg viewBox="0 0 100 60" width="72" height="44">
+      <g transform="translate(5,5)">
+        <ellipse cx="22" cy="28" rx="20" ry="22" fill="#f59e0b" stroke="#d97706" strokeWidth="2" />
+        <rect x="4" y="20" width="36" height="12" rx="5" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" />
+        <rect x="8" y="42" width="28" height="7" rx="3" fill="#16a34a" stroke="#166534" strokeWidth="1.5" />
+        <ellipse cx="5" cy="16" rx="6" ry="9" fill="#f59e0b" stroke="#d97706" strokeWidth="1.5" />
+        <text x="14" y="36" fontSize="13" fill="#d97706" fontWeight="bold">G</text>
+      </g>
+      <g transform="translate(95,5) scale(-1,1)">
+        <ellipse cx="22" cy="28" rx="20" ry="22" fill="#f59e0b" stroke="#d97706" strokeWidth="2" />
+        <rect x="4" y="20" width="36" height="12" rx="5" fill="#fbbf24" stroke="#d97706" strokeWidth="1.5" />
+        <rect x="8" y="42" width="28" height="7" rx="3" fill="#16a34a" stroke="#166534" strokeWidth="1.5" />
+        <ellipse cx="5" cy="16" rx="6" ry="9" fill="#f59e0b" stroke="#d97706" strokeWidth="1.5" />
+        <text x="14" y="36" fontSize="13" fill="#d97706" fontWeight="bold">G</text>
+      </g>
+    </svg>
+  )
+}
+
+function GoldTrophySticker2() {
+  return (
+    <svg viewBox="0 0 60 80" width="40" height="52">
+      <path d="M14,20 L14,52 Q30,62 46,52 L46,20 Z" fill="#fbbf24" stroke="#d97706" strokeWidth="2" />
+      <path d="M14,26 Q4,26 4,38 Q4,50 14,50" fill="none" stroke="#d97706" strokeWidth="5" strokeLinecap="round" />
+      <path d="M46,26 Q56,26 56,38 Q56,50 46,50" fill="none" stroke="#d97706" strokeWidth="5" strokeLinecap="round" />
+      <path d="M20,24 Q24,21 28,24" stroke="#fef08a" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <rect x="25" y="60" width="10" height="9" rx="2" fill="#d97706" />
+      <rect x="18" y="68" width="24" height="6" rx="3" fill="#d97706" />
+      <text x="30" y="17" textAnchor="middle" fontSize="14">⭐</text>
+      <text x="30" y="48" textAnchor="middle" fontSize="11">✨</text>
+    </svg>
+  )
+}
+
 const REWARD_ART = {
   flowerSticker: FlowerSticker,
   kindHeart:     KindHeartBadge,
   sharpEyes:     SharpEyesBadge,
   flowerCrown:   FlowerCrownItem,
+  goldenGloves:  GoldenGlovesSticker,
+  goldTrophy:    GoldTrophySticker2,
 }
 
 // ── Placeholder sticker (future chapters) ────────────────────────────────────

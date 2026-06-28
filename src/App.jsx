@@ -5,6 +5,7 @@ import StickerBook from './components/StickerBook'
 import Meadow from './scenes/Meadow'
 import Forest from './scenes/Forest'
 import SunnyHill from './scenes/SunnyHill'
+import PenaltyShootout from './scenes/PenaltyShootout'
 import { useQuest } from './hooks/useQuest'
 import { useSpeech } from './hooks/useSpeech'
 
@@ -36,7 +37,7 @@ function GameToolbar({ quest, onMap, onBook }) {
 export default function App() {
   const [screen, setScreen] = useState('select') // select | map | game | book
   const [player, setPlayer] = useState({ name: 'Runa', character: 'capybara' })
-  const { quest, advance, completeSideQuest, completeMain, resetChapter } = useQuest()
+  const { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty } = useQuest()
   const speech = useSpeech()
 
   const handlePlayChapter = (chapterId) => {
@@ -59,6 +60,7 @@ export default function App() {
           quest={quest}
           onPlayChapter={handlePlayChapter}
           onStickerBook={() => setScreen('book')}
+          onPenalty={() => { unlockPenalty(); setScreen('penalty') }}
         />
       )}
 
@@ -81,6 +83,15 @@ export default function App() {
             )}
           </div>
         </div>
+      )}
+
+      {screen === 'penalty' && (
+        <PenaltyShootout
+          player={player}
+          quest={quest}
+          addReward={addReward}
+          onComplete={() => setScreen('map')}
+        />
       )}
 
       {screen === 'book' && (

@@ -631,6 +631,230 @@ body::before {
   50%      { transform: scale(1.15); opacity: 0.9; }
 }
 
+@keyframes eggFlash {
+  from { opacity: 0.4; transform: scale(0.9); }
+  to   { opacity: 1;   transform: scale(1.15); }
+}
+
+@keyframes ballBounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-10px); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PENALTY SHOOTOUT
+   ══════════════════════════════════════════════════════════════════════ */
+
+.penalty-screen {
+  width: 100%; height: 100%;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  background: #0d2b0d;
+}
+
+/* Keeper */
+.keeper-wrap {
+  position: absolute;
+  bottom: 48%; left: 50%;
+  transform: translateX(-50%);
+  transition: transform 0.45s cubic-bezier(0.2, 0, 0.4, 1);
+  z-index: 10;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+}
+.keeper-wrap.dive-left   { transform: translateX(calc(-50% - 110px)) rotate(-22deg); }
+.keeper-wrap.dive-centre { transform: translateX(-50%) scaleX(1.1) scaleY(0.88); }
+.keeper-wrap.dive-right  { transform: translateX(calc(-50% + 110px)) rotate(22deg); }
+
+.save-burst {
+  position: absolute; top: -20px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  animation: popIn 0.3s ease-out;
+}
+
+/* Ball */
+.penalty-ball {
+  position: absolute;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, #fff 0%, #555 55%, #111 100%);
+  border: 2px solid #222;
+  left: 50%; bottom: 28%;
+  transform: translateX(-50%);
+  transition: left 0.65s cubic-bezier(0.3,0,0.6,1),
+              bottom 0.65s cubic-bezier(0.3,0,0.6,1),
+              transform 0.65s ease;
+  z-index: 15;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.penalty-ball.fly-left   { left: 22%; bottom: 56%; transform: translateX(-50%) scale(0.45); }
+.penalty-ball.fly-centre { left: 50%; bottom: 60%; transform: translateX(-50%) scale(0.45); }
+.penalty-ball.fly-right  { left: 78%; bottom: 56%; transform: translateX(-50%) scale(0.45); }
+
+/* Bunny */
+.bunny-wrap {
+  position: absolute;
+  bottom: 10%; left: 50%;
+  transform: translateX(-50%);
+  z-index: 8;
+  transition: transform 0.2s;
+}
+.bunny-wrap.kicking {
+  transform: translateX(calc(-50% - 10px)) rotate(-6deg) translateY(-6px);
+}
+
+/* HUD */
+.penalty-hud {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 4px; padding: 10px;
+  z-index: 50;
+}
+
+.shot-indicators {
+  display: flex; gap: 10px;
+}
+.shot-dot {
+  font-size: 1.4rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+.shot-dot.pending { opacity: 0.35; }
+.shot-dot.saved   { animation: popIn 0.3s ease-out; }
+.shot-dot.goal    { animation: popIn 0.3s ease-out; }
+
+.penalty-shot-label {
+  font-size: 0.8rem; font-weight: bold;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Shot result flash */
+.shot-result-flash {
+  position: absolute; top: 38%; left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(2rem, 6vw, 3.5rem); font-weight: bold;
+  padding: 14px 36px;
+  border-radius: 20px;
+  border: 4px solid var(--ink);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  z-index: 60;
+  animation: resultPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  white-space: nowrap;
+}
+.shot-result-flash.save { background: #dcfce7; color: #14532d; }
+.shot-result-flash.goal { background: #fee2e2; color: #991b1b; }
+
+@keyframes resultPop {
+  from { transform: translateX(-50%) scale(0.3); opacity: 0; }
+  to   { transform: translateX(-50%) scale(1);   opacity: 1; }
+}
+
+/* Intro overlay */
+.penalty-intro {
+  position: absolute; inset: 0; z-index: 80;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px; padding: 24px;
+  background: rgba(0,10,0,0.82);
+}
+.penalty-intro-title {
+  font-size: clamp(2rem, 5vw, 3rem); color: #fde047;
+  text-shadow: 0 0 20px rgba(253,224,71,0.5);
+}
+.penalty-intro-desc {
+  font-size: clamp(1rem, 2.5vw, 1.3rem); color: #fff;
+  text-align: center; line-height: 1.6;
+}
+.penalty-intro-sub {
+  font-size: 0.95rem; color: #4ade80; text-align: center;
+}
+
+/* Question area */
+.penalty-question-area {
+  position: absolute;
+  bottom: max(0px, env(safe-area-inset-bottom));
+  left: 0; right: 0;
+  display: flex; flex-direction: column; gap: 0;
+  z-index: 50;
+}
+.penalty-question-bubble {
+  background: rgba(255,252,240,0.96);
+  border: 3px solid var(--ink);
+  border-radius: 22px 22px 0 0;
+  padding: 12px 20px 10px;
+  font-size: clamp(1rem, 2.8vw, 1.35rem);
+  text-align: center; line-height: 1.4;
+  color: var(--ink); font-weight: bold;
+}
+.penalty-q-num {
+  display: inline-block;
+  background: var(--purple); color: #fff;
+  border-radius: 20px; padding: 1px 10px;
+  font-size: 0.8rem; margin-right: 8px;
+}
+
+.penalty-answer-row {
+  display: flex; gap: 0;
+}
+.penalty-answer-btn {
+  flex: 1; min-height: 80px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; padding: 10px 6px;
+  border: none; border-top: 3px solid var(--ink);
+  cursor: pointer; font-family: inherit;
+  transition: filter 0.1s, transform 0.1s;
+}
+.penalty-answer-btn:hover { filter: brightness(1.1); transform: scaleY(1.03); }
+.penalty-answer-btn:active { filter: brightness(0.9); }
+
+.btn-left   { background: #3b82f6; border-right: 1.5px solid var(--ink); }
+.btn-centre { background: #8b5cf6; border-left: 1.5px solid var(--ink); border-right: 1.5px solid var(--ink); }
+.btn-right  { background: #ec4899; border-left: 1.5px solid var(--ink); }
+
+.btn-dir-label {
+  font-size: 0.7rem; font-weight: bold; color: rgba(255,255,255,0.7);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.btn-answer-text {
+  font-size: clamp(0.9rem, 2.5vw, 1.2rem); font-weight: bold; color: #fff;
+  text-align: center;
+}
+
+/* End screen */
+.penalty-end {
+  align-items: center; justify-content: center;
+}
+.penalty-end-content {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; padding: 24px; text-align: center;
+  background: rgba(0,10,0,0.85); border-radius: 24px;
+  border: 3px solid rgba(253,224,71,0.3);
+  max-width: min(560px, 90vw);
+}
+.penalty-fireworks {
+  font-size: 2.5rem;
+  animation: popIn 0.5s ease-out;
+}
+.penalty-end-title {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  text-shadow: 0 0 16px currentColor;
+}
+.penalty-end-msg {
+  color: rgba(255,255,255,0.8); font-size: 1rem;
+}
+.penalty-rewards {
+  display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+}
+.reward-pop {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+.reward-label {
+  font-size: 0.85rem; color: #fde047; font-weight: bold;
+}
+.penalty-end-btns {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+}
+
 /* ══════════════════════════════════════════════════════════════════════
    PUZZLE ENGINE
    ══════════════════════════════════════════════════════════════════════ */

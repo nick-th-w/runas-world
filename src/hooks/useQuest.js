@@ -10,6 +10,7 @@ const initial = {
   questBests: {},         // { butterfly: 'gold', acorns: 'silver' }
   medalTotals: { bronze: 0, silver: 0, gold: 0 },
   chaptersCompleted: Array(CHAPTER_COUNT).fill(false),
+  penaltyUnlocked: false, // easter egg penalty shootout
 }
 
 function bestMedal(current, next) {
@@ -50,5 +51,13 @@ export function useQuest() {
       acorns: false,
     }))
 
-  return { quest, advance, completeSideQuest, completeMain, resetChapter }
+  const addReward = (id) =>
+    setQuest((q) =>
+      q.rewards.includes(id) ? q : { ...q, rewards: [...q.rewards, id] }
+    )
+
+  const unlockPenalty = () =>
+    setQuest((q) => ({ ...q, penaltyUnlocked: true }))
+
+  return { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty }
 }

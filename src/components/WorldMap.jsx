@@ -34,8 +34,9 @@ function MedalBadge({ medal }) {
   return <span className="node-medal">{emoji}</span>
 }
 
-export default function WorldMap({ quest, onPlayChapter, onStickerBook }) {
-  const { chaptersCompleted, questBests, medalTotals } = quest
+export default function WorldMap({ quest, onPlayChapter, onStickerBook, onPenalty }) {
+  const { chaptersCompleted, questBests, medalTotals, penaltyUnlocked } = quest
+  const showBall = chaptersCompleted[0] // visible after ch1 complete (flashing until tapped, bouncing after)
 
   // Chapter 1 is always unlocked; each subsequent chapter unlocks when previous is complete
   const isUnlocked = (i) => i === 0 || chaptersCompleted[i - 1]
@@ -104,6 +105,37 @@ export default function WorldMap({ quest, onPlayChapter, onStickerBook }) {
           {[[820,50],[840,70],[860,45],[875,65],[855,35]].map(([x,y],i) => (
             <text key={i} x={x} y={y} fontSize="12" fill="#fbbf24" opacity="0.8">✦</text>
           ))}
+
+          {/* ⚽ Easter egg / penalty shortcut — near bottom-right of ch1 forest */}
+          {showBall && (
+            <g
+              transform="translate(148, 468)"
+              style={{ cursor: 'pointer' }}
+              onClick={() => onPenalty?.()}
+            >
+              {/* glow ring (flashing if not yet unlocked, steady if unlocked) */}
+              <circle r="22" fill="rgba(255,255,100,0.15)"
+                style={{ animation: penaltyUnlocked
+                  ? 'ballBounce 0.7s ease-in-out infinite alternate'
+                  : 'eggFlash 0.9s ease-in-out infinite alternate' }} />
+              {/* ball */}
+              <text x="0" y="9" textAnchor="middle" fontSize="28"
+                style={{ animation: penaltyUnlocked
+                  ? 'ballBounce 0.7s ease-in-out infinite alternate'
+                  : 'eggFlash 0.9s ease-in-out infinite alternate',
+                  userSelect: 'none' }}>
+                ⚽
+              </text>
+              {/* "secret!" whisper label, only before unlock */}
+              {!penaltyUnlocked && (
+                <text x="0" y="32" textAnchor="middle" fontSize="8"
+                  fill="#fde047" opacity="0.8"
+                  style={{ animation: 'eggFlash 0.9s ease-in-out infinite alternate' }}>
+                  tap me!
+                </text>
+              )}
+            </g>
+          )}
 
           {/* Winding path */}
           <path d={PATH_D} stroke="#d97706" strokeWidth="6" fill="none"
