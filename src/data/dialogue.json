@@ -1,0 +1,58 @@
+{
+  "meadow": {
+    "intro": [
+      "Hello, [NAME]! I'm Bea the Bee!",
+      "A mysterious letter arrived on your doorstep this morning!",
+      "It must be delivered to Clover the Bunny on Sunny Hill.",
+      "Will you carry it through the Whispering Forest?"
+    ]
+  },
+  "forest": {
+    "entry": [
+      "Welcome to the Whispering Forest, [NAME]!",
+      "The trees are full of secrets...",
+      "Look around — some friends might need your help before we go on!"
+    ],
+    "butterflyIntro": [
+      "Oh no! A butterfly is tangled in the vines!",
+      "How will you help her, [NAME]?"
+    ],
+    "butterflyWrong_hard": [
+      "Oops! Pulling too hard might hurt her little wings.",
+      "Let's try again more gently!"
+    ],
+    "butterflyWrong_away": [
+      "The butterfly still needs you, [NAME]!",
+      "Let's go back and help her."
+    ],
+    "butterflySuccess": [
+      "You freed her so gently! The butterfly flutters free!",
+      "She dances around you to say thank you!"
+    ],
+    "acornsIntro": [
+      "Oh dear! Sammy the Squirrel dropped all her acorns!",
+      "Can you tap each one to count them, [NAME]?"
+    ],
+    "acornsSuccess": [
+      "You found all 6 acorns! Sammy does a happy little dance!",
+      "She says you have the sharpest eyes in the whole forest!"
+    ]
+  },
+  "sunnyhill": {
+    "arrival": [
+      "We made it to Sunny Hill, [NAME]!",
+      "There's Clover, waiting in the sunshine!"
+    ],
+    "delivery": [
+      "A letter? For me? Oh how wonderful!",
+      "Oh, [NAME]... it's a drawing of us together!",
+      "This is the most beautiful thing I have ever seen.",
+      "Thank you so much for bringing it all this way!"
+    ],
+    "celebration": [
+      "Hooray! The letter is delivered!",
+      "You did it, [NAME]! What an amazing adventure!",
+      "You are the kindest, bravest friend in the whole world!"
+    ]
+  }
+}

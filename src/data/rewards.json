@@ -1,0 +1,6 @@
+{
+  "kindHeart": { "id": "kindHeart", "name": "Kind Heart", "type": "badge", "desc": "Awarded for gently freeing the butterfly" },
+  "sharpEyes": { "id": "sharpEyes", "name": "Sharp Eyes", "type": "badge", "desc": "Awarded for counting all 6 acorns" },
+  "flowerSticker": { "id": "flowerSticker", "name": "Golden Flower", "type": "sticker", "desc": "Awarded for delivering the letter" },
+  "flowerCrown": { "id": "flowerCrown", "name": "Flower Crown", "type": "item", "desc": "A beautiful crown for completing the adventure" }
+}

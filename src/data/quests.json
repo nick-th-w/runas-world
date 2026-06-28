@@ -1,0 +1,11 @@
+{
+  "main": {
+    "id": "lostLetter",
+    "title": "The Lost Letter",
+    "steps": ["Find the letter in Cosy Meadow", "Journey through Whispering Forest", "Deliver the letter on Sunny Hill"]
+  },
+  "side": [
+    { "id": "butterfly", "title": "The Stuck Butterfly", "scene": "forest", "badge": "kindHeart" },
+    { "id": "acorns", "title": "The Counting Acorns", "scene": "forest", "badge": "sharpEyes" }
+  ]
+}
