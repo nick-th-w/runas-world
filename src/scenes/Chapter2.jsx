@@ -480,14 +480,11 @@ function LakeSpiritChallenge({ playerName, speech, onWin }) {
 // ── Main Chapter 2 component ──────────────────────────────────────────────────
 
 export default function Chapter2({ player, quest, speech, advanceCh2, completeSideQuest, completeMain: completeCh2Main, onComplete }) {
-  const [subPhase, setSubPhase] = useState(quest.ch2Phase || 'bedroom-morning')
+  // Use quest.ch2Phase as source of truth so external nav arrows work
+  const subPhase = quest.ch2Phase || 'bedroom-morning'
   const { Component } = CHARACTERS[player.character]
-  const hasTiara = quest.rewards.includes('ch2MoonTiara')
 
-  const advance = (next) => {
-    setSubPhase(next)
-    advanceCh2({ ch2Phase: next })
-  }
+  const advance = (next) => advanceCh2({ ch2Phase: next })
 
   // ── Bedroom Morning ──
   if (subPhase === 'bedroom-morning') {
