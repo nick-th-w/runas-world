@@ -59,12 +59,11 @@ export default function WorldMap({ quest, player, pendingCharacter, onPlayChapte
           <span>🥈 {medalTotals.silver}</span>
           <span>🥇 {medalTotals.gold}</span>
         </div>
-        <button className="btn-book btn-change-char" onClick={onChangeCharacter}
-          title={pendingCharacter ? `Switching to ${CHARACTERS[pendingCharacter]?.label}` : 'Change Character'}>
+        <button className="btn-book btn-change-char" onClick={onChangeCharacter}>
+          <span className="char-btn-label">{player?.name ?? 'Change'}</span>
           <span className="char-mini-wrap">
             {(() => { const { Component } = CHARACTERS[pendingCharacter ?? player?.character ?? 'capybara']; return <Component size={28} hasCrown={false} /> })()}
           </span>
-          <span className="char-btn-label">{pendingCharacter ? 'Switching…' : 'Change'}</span>
         </button>
         <button className="btn-book" onClick={onStickerBook}>📖 Sticker Book</button>
       </div>

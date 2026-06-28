@@ -27,15 +27,18 @@
           { "items": ["pink","pink","orange","pink","pink"],      "answer": "orange", "choices": ["orange","pink","blue","green"],  "question": "What colour comes next?" }
         ]
       },
-      "riddle": {
-        "timePerQuestion": 30,
+      "spelling": {
+        "timePerQuestion": 20,
         "questions": [
-          { "text": "I have hands but cannot clap. What am I?",                   "answer": "A clock",     "choices": ["A clock",     "A glove",      "A tree"]       },
-          { "text": "What gets wetter the more it dries?",                        "answer": "A towel",     "choices": ["A towel",     "A sponge",     "A fish"]       },
-          { "text": "What goes up but never comes down?",                         "answer": "Your age",    "choices": ["Your age",    "A balloon",    "A kite"]       },
-          { "text": "I have an eye but cannot see. What am I?",                   "answer": "A needle",    "choices": ["A needle",    "A potato",     "A fish"]       },
-          { "text": "The more you take, the more you leave behind. What am I?",   "answer": "Footsteps",   "choices": ["Footsteps",   "Cookies",      "Sand"]         },
-          { "text": "What travels the world but stays in one corner?",            "answer": "A stamp",     "choices": ["A stamp",     "A butterfly",  "A coin"]       }
+          { "question": "Which word is spelled correctly?",              "choices": ["RABIT",    "RABBIT",   "RABBITT"],   "correct": 1 },
+          { "question": "Which word is spelled correctly?",              "choices": ["SQUIRREL", "SQUIREL",  "SQUIRELL"],  "correct": 0 },
+          { "question": "Which word is spelled correctly?",              "choices": ["BUTERFLY", "BUTTERFLYE","BUTTERFLY"],"correct": 2 },
+          { "question": "Fill in the missing letter: A C O R _",        "choices": ["M",        "T",        "N"],         "correct": 2 },
+          { "question": "Fill in the missing letter: B _ E",            "choices": ["A",        "E",        "I"],         "correct": 1 },
+          { "question": "Fill in the missing letter: F _ X",            "choices": ["A",        "O",        "U"],         "correct": 1 },
+          { "question": "Which word is spelled correctly?",              "choices": ["MEADOW",   "MEDOW",    "MEADOWE"],   "correct": 0 },
+          { "question": "Fill in the missing letter: T R _ E",          "choices": ["A",        "I",        "E"],         "correct": 2 },
+          { "question": "Which word is spelled correctly?",              "choices": ["FLOWR",    "FLOWER",   "FLOWUR"],    "correct": 1 }
         ]
       },
       "memory": {
@@ -72,15 +75,18 @@
           { "items": ["purple","yellow","purple","yellow","purple"],  "answer": "yellow", "choices": ["yellow","purple","pink","blue"],   "question": "What colour comes next?" }
         ]
       },
-      "riddle": {
-        "timePerQuestion": 30,
+      "spelling": {
+        "timePerQuestion": 20,
         "questions": [
-          { "text": "What has to be broken before you can use it?",               "answer": "An egg",      "choices": ["An egg",      "A promise",    "A door"]       },
-          { "text": "I am tall when young and short when old. What am I?",        "answer": "A candle",    "choices": ["A candle",    "A person",     "A tree"]       },
-          { "text": "What month of the year has 28 days?",                        "answer": "All of them", "choices": ["All of them", "February",     "October"]      },
-          { "text": "I have teeth but cannot eat. What am I?",                    "answer": "A comb",      "choices": ["A comb",      "A shark",      "A zipper"]     },
-          { "text": "What can you catch but not throw?",                          "answer": "A cold",      "choices": ["A cold",      "A ball",       "A fish"]       },
-          { "text": "What is always in front of you but cannot be seen?",         "answer": "The future",  "choices": ["The future",  "Your nose",    "Tomorrow"]     }
+          { "question": "Which word is spelled correctly?",              "choices": ["FOREST",    "FORREST",    "FORAST"],      "correct": 0 },
+          { "question": "Which word is spelled correctly?",              "choices": ["MUSHRUME",  "MUSHROOM",   "MUSHROOME"],   "correct": 1 },
+          { "question": "Fill in the missing letter: F O R _ S T",     "choices": ["A",         "I",          "E"],           "correct": 2 },
+          { "question": "Fill in the missing letter: M E A _ O W",     "choices": ["N",         "D",          "T"],           "correct": 1 },
+          { "question": "Which word is spelled correctly?",              "choices": ["AKORN",     "AYCORN",     "ACORN"],       "correct": 2 },
+          { "question": "Fill in the missing letter: G R A S _",       "choices": ["S",         "P",          "T"],           "correct": 0 },
+          { "question": "Which word is spelled correctly?",              "choices": ["BUMBLEEBEE","BUMBLEBEE",  "BUMBLBEE"],    "correct": 1 },
+          { "question": "Fill in the missing letter: S U N F L O W _ R","choices": ["E",         "A",          "I"],           "correct": 0 },
+          { "question": "Which word is spelled correctly?",              "choices": ["CATERPILLER","CATERPILAR","CATERPILLAR"], "correct": 2 }
         ]
       },
       "memory": {

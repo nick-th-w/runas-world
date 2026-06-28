@@ -21,10 +21,10 @@
   {"q":"Is the number 7 odd or even?",                         "choices":["Odd","Neither","Even"],             "correct":0},
   {"q":"2 + 4 = 6. Is 6 odd or even?",                        "choices":["Odd","Neither","Even"],             "correct":2},
 
-  {"q":"I have hands but cannot clap. What am I?",             "choices":["A clock","A glove","A tree"],        "correct":0},
-  {"q":"What gets wetter the more it dries?",                  "choices":["A sponge","A fish","A towel"],       "correct":2},
-  {"q":"The more you take, the more you leave behind.",        "choices":["Sand","Footsteps","Cookies"],        "correct":1},
-  {"q":"What travels the world but stays in one corner?",      "choices":["A coin","A stamp","A butterfly"],   "correct":1},
-  {"q":"What has to be broken before you can use it?",         "choices":["An egg","A door","A promise"],       "correct":0},
-  {"q":"What colour is grass in Cosy Meadow?",                 "choices":["Blue","Green","Brown"],              "correct":1}
+  {"q":"Which word is spelled correctly?",                      "choices":["RABIT","RABBIT","RABBITT"],          "correct":1},
+  {"q":"Which word is spelled correctly?",                      "choices":["SQUIRREL","SQUIREL","SQUIRELL"],     "correct":0},
+  {"q":"Fill in the missing letter: A C O R _",               "choices":["M","T","N"],                         "correct":2},
+  {"q":"Which word is spelled correctly?",                      "choices":["BUTERFLY","BUTTERFLY","BUTTERFLYE"],"correct":1},
+  {"q":"Fill in the missing letter: M E A _ O W",             "choices":["N","D","T"],                         "correct":1},
+  {"q":"Fill in the missing letter: F O R _ S T",             "choices":["E","A","I"],                         "correct":0}
 ]

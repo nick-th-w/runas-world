@@ -3,7 +3,7 @@ import { CHARACTERS } from '../characters'
 
 const ANIMALS = ['capybara', 'rabbit', 'whale', 'bird']
 
-export default function CharacterModal({ current, onConfirm, onClose }) {
+export default function CharacterModal({ current, playerName, onConfirm, onClose }) {
   const [selected, setSelected] = useState(current)
 
   return (
@@ -40,8 +40,8 @@ export default function CharacterModal({ current, onConfirm, onClose }) {
           onClick={() => onConfirm(selected)}
         >
           {selected === current
-            ? `Keep ${CHARACTERS[current].label} ✓`
-            : `Switch to ${CHARACTERS[selected].label}!`}
+            ? `Keep ${playerName} ✓`
+            : `Switch ${playerName} to ${CHARACTERS[selected].label}!`}
         </button>
       </div>
     </div>

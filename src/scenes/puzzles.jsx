@@ -8,7 +8,7 @@ function pickRandom(arr, n) {
 }
 
 function pickPuzzleTypes() {
-  return [...['math', 'pattern', 'riddle', 'memory']].sort(() => Math.random() - 0.5).slice(0, 3)
+  return [...['math', 'pattern', 'spelling', 'memory']].sort(() => Math.random() - 0.5).slice(0, 3)
 }
 
 // stars: 0 | 1 | 2  (per puzzle)
@@ -273,25 +273,24 @@ function PatternPuzzle({ data, onComplete }) {
   )
 }
 
-// ── Riddle Puzzle ─────────────────────────────────────────────────────────────
+// ── Spelling Puzzle ───────────────────────────────────────────────────────────
 
-function RiddlePuzzle({ data, onComplete }) {
+function SpellingPuzzle({ data, onComplete }) {
   const { timePerQuestion, questions } = data
   const [qs] = useState(() => pickRandom(questions, 3))
   const [qi, setQi] = useState(0)
   const [score, setScore] = useState(0)
   const [started, setStarted] = useState(false)
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState(null) // null | 'correct' | 'wrong'
   const busy = useRef(false)
 
   const q = qs[qi]
-
   const finish = (s) => onComplete(s === 3 ? 2 : s >= 2 ? 1 : 0)
 
-  const choose = (choice) => {
+  const choose = (choiceIdx) => {
     if (busy.current || result) return
     busy.current = true
-    const correct = choice === q.answer
+    const correct = choiceIdx === q.correct
     const newScore = correct ? score + 1 : score
     setScore(newScore)
     setResult(correct ? 'correct' : 'wrong')
@@ -313,9 +312,9 @@ function RiddlePuzzle({ data, onComplete }) {
     return (
       <div className="puzzle-screen">
         <div className="puzzle-start">
-          <div style={{ fontSize: '3rem' }}>🦉</div>
-          <h2 className="puzzle-start-title">Riddle Time!</h2>
-          <p className="puzzle-start-desc">3 riddles · {timePerQuestion} seconds each<br />Can you guess the answer?</p>
+          <div style={{ fontSize: '3rem' }}>📝</div>
+          <h2 className="puzzle-start-title">Spelling Challenge!</h2>
+          <p className="puzzle-start-desc">3 spelling questions · {timePerQuestion} seconds each<br />Pick the correct spelling!</p>
           <button className="btn-primary" onClick={() => setStarted(true)}>Start!</button>
         </div>
       </div>
@@ -324,15 +323,15 @@ function RiddlePuzzle({ data, onComplete }) {
 
   return (
     <div className="puzzle-screen">
-      <PuzzleHeader title="🦉 Riddles" qi={qi} total={3} score={score} />
-      <Timer key={`riddle-${qi}`} seconds={timePerQuestion} running={!result} onTimeout={handleTimeout} />
-      <div className="riddle-text">❝ {q.text} ❞</div>
+      <PuzzleHeader title="📝 Spelling" qi={qi} total={3} score={score} />
+      <Timer key={`spell-${qi}`} seconds={timePerQuestion} running={!result} onTimeout={handleTimeout} />
+      <div className="riddle-text">{q.question}</div>
       <div className="riddle-choices">
-        {q.choices.map((c) => (
+        {q.choices.map((c, i) => (
           <button
-            key={c}
-            className={`choice-btn riddle-btn ${result ? (c === q.answer ? 'correct' : 'dim') : ''}`}
-            onClick={() => choose(c)}
+            key={i}
+            className={`choice-btn riddle-btn ${result ? (i === q.correct ? 'correct' : 'dim') : ''}`}
+            onClick={() => choose(i)}
             disabled={!!result}
           >
             {c}
@@ -341,7 +340,7 @@ function RiddlePuzzle({ data, onComplete }) {
       </div>
       {result && (
         <div className={`result-flash ${result}`}>
-          {result === 'correct' ? '✓ Correct!' : `✗ It was: ${q.answer}`}
+          {result === 'correct' ? '✓ Correct!' : `✗ It was: ${q.choices[q.correct]}`}
         </div>
       )}
     </div>
@@ -491,7 +490,7 @@ function PuzzleResult({ scores, onAccept, onRetry }) {
 
 // ── Puzzle Set (orchestrator) ─────────────────────────────────────────────────
 
-const PUZZLE_COMPONENTS = { math: MathPuzzle, pattern: PatternPuzzle, riddle: RiddlePuzzle, memory: MemoryPuzzle }
+const PUZZLE_COMPONENTS = { math: MathPuzzle, pattern: PatternPuzzle, spelling: SpellingPuzzle, memory: MemoryPuzzle }
 
 export default function PuzzleSet({ chapterId = 1, questId = 'butterfly', onComplete }) {
   const pool = puzzleDB[`chapter${chapterId}`][questId]
@@ -526,7 +525,7 @@ export default function PuzzleSet({ chapterId = 1, questId = 'butterfly', onComp
         Puzzle {current + 1} of 3 —{' '}
         {types.map((t, i) => (
           <span key={t} className={`type-dot ${i < current ? 'done' : i === current ? 'active' : ''}`}>
-            {{ math: '🔢', pattern: '🎨', riddle: '🦉', memory: '🃏' }[t]}
+            {{ math: '🔢', pattern: '🎨', spelling: '📝', memory: '🃏' }[t]}
           </span>
         ))}
       </div>

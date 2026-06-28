@@ -152,6 +152,7 @@ export default function App() {
       {showCharacterModal && (
         <CharacterModal
           current={pendingCharacter ?? player.character}
+          playerName={player.name}
           onConfirm={handleCharacterConfirm}
           onClose={() => setShowCharacterModal(false)}
         />
