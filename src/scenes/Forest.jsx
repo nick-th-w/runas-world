@@ -168,7 +168,7 @@ export default function Forest({ player, quest, speech, advance, completeSideQue
           <div className="explore-buttons">
             {!quest.butterfly ? (
               <button className="btn-quest" onClick={() => setSubPhase('butterfly')}>
-                🦋 Help the stuck butterfly
+                🦋 The Butterfly Challenge
                 {quest.questBests?.butterfly && <span className="quest-medal">
                   {{ gold:'🥇', silver:'🥈', bronze:'🥉' }[quest.questBests.butterfly]}
                 </span>}
@@ -180,14 +180,14 @@ export default function Forest({ player, quest, speech, advance, completeSideQue
             )}
             {!quest.acorns ? (
               <button className="btn-quest" onClick={() => setSubPhase('acorns')}>
-                🌰 Help find the acorns
+                🌰 The Acorn Challenge
                 {quest.questBests?.acorns && <span className="quest-medal">
                   {{ gold:'🥇', silver:'🥈', bronze:'🥉' }[quest.questBests.acorns]}
                 </span>}
               </button>
             ) : (
               <div className="quest-done">
-                🌰 Acorns counted! ✓ {{ gold:'🥇', silver:'🥈', bronze:'🥉' }[quest.questBests?.acorns]}
+                🌰 Acorns found! ✓ {{ gold:'🥇', silver:'🥈', bronze:'🥉' }[quest.questBests?.acorns]}
               </div>
             )}
             <button className="btn-primary"

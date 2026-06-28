@@ -13,7 +13,8 @@
 }
 
 html, body, #root {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   background: var(--cream);
   font-family: 'Comic Sans MS', 'Chalkboard SE', 'Bradley Hand', cursive;
@@ -205,7 +206,7 @@ body::before {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 0 24px 28px;
+  padding: 0 24px max(28px, calc(20px + env(safe-area-inset-bottom)));
   cursor: pointer;
   z-index: 100;
 }
@@ -253,7 +254,7 @@ body::before {
 /* ── Scene action ────────────────────────────────────────────────────── */
 .scene-action {
   position: absolute;
-  bottom: 28px;
+  bottom: max(28px, calc(14px + env(safe-area-inset-bottom)));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -274,7 +275,7 @@ body::before {
 /* ── Explore panel ───────────────────────────────────────────────────── */
 .explore-panel {
   position: absolute;
-  bottom: 28px;
+  bottom: max(28px, calc(14px + env(safe-area-inset-bottom)));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -328,7 +329,7 @@ body::before {
 /* ── Choice buttons ──────────────────────────────────────────────────── */
 .choice-panel {
   position: absolute;
-  bottom: 28px;
+  bottom: max(28px, calc(14px + env(safe-area-inset-bottom)));
   left: 50%;
   transform: translateX(-50%);
   width: min(540px, 92vw);
@@ -554,7 +555,7 @@ body::before {
 
 .map-bottom-bar {
   display: flex; align-items: center; justify-content: center;
-  padding: 10px 20px;
+  padding: 10px 20px max(10px, env(safe-area-inset-bottom));
   background: rgba(0,0,0,0.35);
   flex-shrink: 0;
   gap: 14px;
@@ -773,7 +774,7 @@ body::before {
   width: 100%; height: 100%;
   display: flex; flex-direction: column; align-items: center;
   background: #2d1b69;
-  padding: 10px 16px 8px;
+  padding: 10px 16px max(8px, env(safe-area-inset-bottom));
   gap: 10px;
   overflow: hidden;
 }
@@ -914,5 +915,6 @@ body::before {
 
 .book-medal-row {
   display: flex; gap: 24px; flex-shrink: 0;
-  font-size: 0.95rem; color: #c4b5fd; padding-bottom: 4px;
+  font-size: 0.95rem; color: #c4b5fd;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
 }

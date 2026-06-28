@@ -15,7 +15,8 @@
     ],
     "butterflyIntro": [
       "Oh no! A butterfly is tangled in the vines!",
-      "How will you help her, [NAME]?"
+      "To free her, you must solve 3 puzzles, [NAME]!",
+      "Good luck — the clock is ticking!"
     ],
     "butterflyWrong_hard": [
       "Oops! Pulling too hard might hurt her little wings.",
@@ -31,7 +32,8 @@
     ],
     "acornsIntro": [
       "Oh dear! Sammy the Squirrel dropped all her acorns!",
-      "Can you tap each one to count them, [NAME]?"
+      "Can you solve 3 puzzles to help her find them, [NAME]?",
+      "Show Sammy how clever you are!"
     ],
     "acornsSuccess": [
       "You found all 6 acorns! Sammy does a happy little dance!",
