@@ -1,16 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const CHAPTER_COUNT = 11
+const QUEST_KEY = 'runas-quest'
 
 const initial = {
-  phase: 'meadow',        // current chapter scene phase
+  phase: 'meadow',
   butterfly: false,
   acorns: false,
   rewards: [],
-  questBests: {},         // { butterfly: 'gold', acorns: 'silver' }
+  questBests: {},
   medalTotals: { bronze: 0, silver: 0, gold: 0 },
   chaptersCompleted: Array(CHAPTER_COUNT).fill(false),
-  penaltyUnlocked: false, // easter egg penalty shootout
+  penaltyUnlocked: false,
+}
+
+function load() {
+  try {
+    const saved = localStorage.getItem(QUEST_KEY)
+    return saved ? { ...initial, ...JSON.parse(saved) } : initial
+  } catch { return initial }
 }
 
 function bestMedal(current, next) {
@@ -21,7 +29,12 @@ function bestMedal(current, next) {
 }
 
 export function useQuest() {
-  const [quest, setQuest] = useState(initial)
+  const [quest, setQuest] = useState(load)
+
+  // Persist every change to localStorage
+  useEffect(() => {
+    try { localStorage.setItem(QUEST_KEY, JSON.stringify(quest)) } catch {}
+  }, [quest])
 
   const advance = (update) => setQuest((q) => ({ ...q, ...update }))
 

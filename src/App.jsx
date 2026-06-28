@@ -36,9 +36,15 @@ function GameToolbar({ quest, onMap, onBook }) {
 }
 
 export default function App() {
-  const [screen, setScreen] = useState('select') // select | map | game | book | penalty
-  const [player, setPlayer] = useState({ name: 'Runa', character: 'capybara' })
-  const [pendingCharacter, setPendingCharacter] = useState(null) // applied on next chapter start
+  const hasSavedPlayer = !!localStorage.getItem('runas-player')
+  const [screen, setScreen] = useState(hasSavedPlayer ? 'map' : 'select')
+  const [player, setPlayer] = useState(() => {
+    try {
+      const saved = localStorage.getItem('runas-player')
+      return saved ? JSON.parse(saved) : { name: 'Runa', character: 'capybara' }
+    } catch { return { name: 'Runa', character: 'capybara' } }
+  })
+  const [pendingCharacter, setPendingCharacter] = useState(null)
   const [showCharacterModal, setShowCharacterModal] = useState(false)
   const { quest, advance, completeSideQuest, completeMain, resetChapter, addReward, unlockPenalty } = useQuest()
   const speech = useSpeech()
@@ -46,7 +52,11 @@ export default function App() {
   const handlePlayChapter = (chapterId) => {
     // Apply any pending character swap before starting the chapter
     if (pendingCharacter) {
-      setPlayer((p) => ({ ...p, character: pendingCharacter }))
+      setPlayer((p) => {
+        const next = { ...p, character: pendingCharacter }
+        try { localStorage.setItem('runas-player', JSON.stringify(next)) } catch {}
+        return next
+      })
       setPendingCharacter(null)
     }
     if (chapterId === 1 && quest.chaptersCompleted[0]) resetChapter()
@@ -75,7 +85,11 @@ export default function App() {
   return (
     <div className="app">
       {screen === 'select' && (
-        <CharacterSelect onStart={(p) => { setPlayer(p); setScreen('map') }} />
+        <CharacterSelect onStart={(p) => {
+        setPlayer(p)
+        try { localStorage.setItem('runas-player', JSON.stringify(p)) } catch {}
+        setScreen('map')
+      }} />
       )}
 
       {screen === 'map' && (
