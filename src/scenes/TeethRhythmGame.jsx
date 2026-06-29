@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
 const TOOTH_COLORS = ['#ff6b9d', '#a29bfe', '#74b9ff', '#00cec9', '#fdcb6e']
-const HIT_Y_MIN = 75
-const HIT_Y_MAX = 98
+const HIT_Y_MIN = 65
+const HIT_Y_MAX = 99
 const FRAME_MS = 50
 const TOTAL_TEETH = 20
 
@@ -81,7 +81,7 @@ export default function TeethRhythmGame({ onComplete, onCancel }) {
 
     const id = setInterval(() => {
       if (!g.playing) return
-      const step = 1.05 * g.speed
+      const step = 0.79 * g.speed
 
       g.teeth = g.teeth.map(t => ({ ...t, y: t.y + step }))
 
@@ -166,7 +166,7 @@ export default function TeethRhythmGame({ onComplete, onCancel }) {
 
     // Speed bump every 4 non-golden catches
     if (!tooth.isGolden && g.caught % 4 === 0) {
-      g.speed = Math.min(g.speed + 0.25, 4.5)
+      g.speed = Math.min(g.speed + 0.12, 4.5)
       setSpeed(g.speed)
     }
 
@@ -275,12 +275,14 @@ export default function TeethRhythmGame({ onComplete, onCancel }) {
             {displayTeeth.filter(t => t.lane === lane).map(tooth => (
               <Tooth key={tooth.id} {...tooth} />
             ))}
-            {/* hit zone */}
+            {/* hit zone — dashed line at top of catch zone */}
             <div className="rhythm-hit-zone" style={{ borderColor: LANE_COLORS[lane] }} />
             {/* tap button at bottom */}
             <div className="rhythm-tap-btn" style={{ background: LANE_COLORS[lane] }}>
               {LANE_LABELS[lane]}
             </div>
+            {/* red miss line at very bottom */}
+            <div className="rhythm-miss-line" />
           </div>
         ))}
       </div>
