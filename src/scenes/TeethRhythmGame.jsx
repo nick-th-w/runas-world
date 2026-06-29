@@ -85,10 +85,11 @@ export default function TeethRhythmGame({ onComplete, onCancel }) {
 
       g.teeth = g.teeth.map(t => ({ ...t, y: t.y + step }))
 
-      // Miss detection: teeth that passed exit without being caught
-      const missed = g.teeth.filter(t => t.y > 100 && !t.caught)
-      if (missed.length > 0) {
-        g.lives = Math.max(0, g.lives - missed.length)
+      // Miss detection: teeth that crossed the red line and haven't been counted yet
+      const newlyMissed = g.teeth.filter(t => t.y > 100 && !t.caught && !t.missed)
+      if (newlyMissed.length > 0) {
+        g.teeth = g.teeth.map(t => newlyMissed.includes(t) ? { ...t, missed: true } : t)
+        g.lives = Math.max(0, g.lives - newlyMissed.length)
         setLives(g.lives)
         if (g.lives <= 0) {
           g.playing = false
