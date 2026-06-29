@@ -206,31 +206,61 @@ function PatternPuzzle({ data, onComplete }) {
   const [score, setScore] = useState(0)
   const [started, setStarted] = useState(false)
   const [result, setResult] = useState(null)
+  const [dualAnsweredStep, setDualAnsweredStep] = useState(-1)
+  const [dualRowResults, setDualRowResults] = useState([])
   const busy = useRef(false)
 
   const q = qs[qi]
+  const isDual = q?.type === 'dual'
 
   const finish = (s) => onComplete(s === 3 ? 2 : s >= 2 ? 1 : 0)
 
-  const choose = (choice) => {
-    if (busy.current || result) return
-    busy.current = true
-    const correct = choice === q.answer
-    const newScore = correct ? score + 1 : score
-    setScore(newScore)
-    setResult(correct ? 'correct' : 'wrong')
+  const advanceQ = (newScore) => {
     const next = qi + 1
     if (next >= qs.length) setTimeout(() => finish(newScore), 700)
-    else setTimeout(() => { setQi(next); setResult(null); busy.current = false }, 700)
+    else setTimeout(() => {
+      setQi(next); setResult(null)
+      setDualAnsweredStep(-1); setDualRowResults([])
+      busy.current = false
+    }, 700)
+  }
+
+  const choose = (choice) => {
+    if (busy.current || result) return
+
+    if (isDual) {
+      const stepAnswering = dualAnsweredStep + 1
+      const currentRow = q.rows[stepAnswering]
+      const isCorrect = choice === currentRow.answer
+
+      if (stepAnswering === 0) {
+        setDualAnsweredStep(0)
+        setDualRowResults([isCorrect ? 'correct' : 'wrong'])
+      } else {
+        busy.current = true
+        const allResults = [...dualRowResults, isCorrect ? 'correct' : 'wrong']
+        setDualRowResults(allResults)
+        const allCorrect = allResults.every(r => r === 'correct')
+        const newScore = allCorrect ? score + 1 : score
+        setScore(newScore)
+        setResult(allCorrect ? 'correct' : 'wrong')
+        advanceQ(newScore)
+      }
+    } else {
+      busy.current = true
+      const correct = choice === q.answer
+      const newScore = correct ? score + 1 : score
+      setScore(newScore)
+      setResult(correct ? 'correct' : 'wrong')
+      advanceQ(newScore)
+    }
   }
 
   const handleTimeout = () => {
     if (busy.current || result) return
     busy.current = true
     setResult('wrong')
-    const next = qi + 1
-    if (next >= qs.length) setTimeout(() => finish(score), 700)
-    else setTimeout(() => { setQi(next); setResult(null); busy.current = false }, 700)
+    advanceQ(score)
   }
 
   if (!started) {
@@ -246,27 +276,62 @@ function PatternPuzzle({ data, onComplete }) {
     )
   }
 
+  const timerRunning = isDual ? (dualAnsweredStep < 1 && !result) : !result
+
   return (
     <div className="puzzle-screen">
       <PuzzleHeader title="🎨 Patterns" qi={qi} total={3} score={score} />
-      <Timer key={`pat-${qi}`} seconds={timePerQuestion} running={!result} onTimeout={handleTimeout} />
-      <p className="puzzle-question-text">{q.question}</p>
-      <div className="pattern-sequence">
-        {q.items.map((c, i) => <ColorDot key={i} color={c} size={48} />)}
-        <div className="pattern-question-mark">?</div>
-      </div>
+      <Timer key={`pat-${qi}`} seconds={timePerQuestion} running={timerRunning} onTimeout={handleTimeout} />
+
+      {isDual ? (
+        <>
+          <p className="puzzle-question-text">What colours come next? (2 rows!)</p>
+          <div className="dual-pattern-rows">
+            {q.rows.map((row, rowIdx) => {
+              const rowAnswered = rowIdx <= dualAnsweredStep
+              const rowActive = !result && rowIdx === dualAnsweredStep + 1
+              const rowResult = dualRowResults[rowIdx] || null
+              return (
+                <div key={rowIdx} className={`pattern-row${rowActive ? ' active-row' : rowAnswered ? ' answered-row' : ''}`}>
+                  <div className="pattern-sequence" style={{ justifyContent: 'center' }}>
+                    {row.items.map((c, i) => <ColorDot key={i} color={c} size={40} />)}
+                    <div className={`pattern-question-mark${rowResult ? ` ${rowResult}` : ''}`}>
+                      {rowAnswered ? (rowResult === 'correct' ? '✓' : '✗') : '?'}
+                    </div>
+                  </div>
+                  {rowActive && <p className="dual-row-label">↑ Pick the next colour for Row {rowIdx + 1}</p>}
+                </div>
+              )
+            })}
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="puzzle-question-text">{q.question}</p>
+          <div className="pattern-sequence">
+            {q.items.map((c, i) => <ColorDot key={i} color={c} size={48} />)}
+            <div className="pattern-question-mark">?</div>
+          </div>
+        </>
+      )}
+
       <div className="pattern-choices">
-        {q.choices.map((c) => (
-          <button
-            key={c}
-            className={`color-choice-btn ${result ? (c === q.answer ? 'correct' : 'dim') : ''}`}
-            onClick={() => choose(c)}
-            disabled={!!result}
-          >
-            <ColorDot color={c} size={52} border={false} />
-            <span className="color-label">{c}</span>
-          </button>
-        ))}
+        {q.choices.map((c) => {
+          const isAnswer = isDual
+            ? q.rows.some(r => r.answer === c)
+            : c === q.answer
+          return (
+            <button
+              key={c}
+              className={`color-choice-btn ${result ? (isAnswer ? 'correct' : 'dim') : ''}`}
+              onClick={() => choose(c)}
+              disabled={!!result}
+            >
+              <ColorDot color={c} size={52} border={false} />
+              <span className="color-label">{c}</span>
+            </button>
+          )
+        })}
       </div>
       {result && <div className={`result-flash ${result}`}>{result === 'correct' ? '✓ Correct!' : '✗ Not quite!'}</div>}
     </div>
@@ -437,7 +502,7 @@ function MemoryPuzzle({ data, onComplete }) {
       </div>
       <Timer key="memory" seconds={timeLimit} running={!timedOut && matchCount < pairs.length} onTimeout={handleTimeout} />
       {timedOut && <div className="result-flash wrong">Time's up! Keep practising!</div>}
-      <div className="memory-grid">
+      <div className="memory-grid" style={{ gridTemplateColumns: `repeat(${Math.ceil(cardState.length / 2)}, 1fr)` }}>
         {cardState.map((card, idx) => (
           <button
             key={card.id}

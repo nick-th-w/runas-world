@@ -1227,15 +1227,16 @@ body::before {
   background: rgba(255,255,255,0.12);
 }
 .rhythm-hit-zone {
-  position: absolute; bottom: 60px; left: 0; right: 0;
-  height: 4px; border-top: 3px dashed currentColor; opacity: 0.5;
+  position: absolute; bottom: 25%; left: 0; right: 0;
+  height: 4px; border-top: 3px dashed currentColor; opacity: 0.6;
 }
 .rhythm-tap-btn {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 56px;
+  position: absolute; bottom: 0; left: 0; right: 0; height: 25%;
   display: flex; align-items: center; justify-content: center;
   font-size: 1.5rem;
   border-radius: 0 0 6px 6px;
-  opacity: 0.85;
+  opacity: 0.9;
+  background: rgba(255,255,255,0.08);
 }
 
 /* Teeth */
@@ -1386,6 +1387,57 @@ body::before {
 .color-choice-btn.dim     { opacity: 0.45; }
 .color-label { font-size: 0.85rem; font-weight: bold; color: var(--ink); text-transform: capitalize; }
 
+/* Dual-row pattern puzzle */
+.dual-pattern-rows { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 680px; }
+.pattern-row {
+  padding: 8px 14px; border-radius: 16px;
+  background: #fff; border: 3px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: border-color 0.2s, opacity 0.2s;
+}
+.pattern-row.active-row  { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(139,92,246,0.15), 0 2px 6px rgba(0,0,0,0.08); }
+.pattern-row.answered-row { opacity: 0.65; }
+.pattern-question-mark.correct { border-color: #16a34a; color: #16a34a; background: #dcfce7; font-size: 1.5rem; }
+.pattern-question-mark.wrong   { border-color: #ef4444; color: #ef4444; background: #fee2e2; font-size: 1.5rem; }
+.dual-row-label { font-size: 0.8rem; color: var(--purple); font-weight: bold; text-align: center; margin-top: 4px; }
+
+/* Find the Fish scene */
+.find-fish-screen {
+  position: absolute; inset: 0;
+  background: #0c4a6e;
+  overflow: hidden;
+}
+.find-fish-counter {
+  position: absolute; top: 14px; right: 14px; z-index: 50;
+  background: rgba(0,0,0,0.72); color: #fff;
+  padding: 9px 20px; border-radius: 30px;
+  font-size: 1.3rem; font-weight: bold;
+  border: 3px solid #4ade80;
+  pointer-events: none;
+}
+.find-fish-hint {
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.9);
+  padding: 7px 20px; border-radius: 20px;
+  font-size: 0.95rem; z-index: 50;
+  pointer-events: none; white-space: nowrap;
+}
+.find-fish-celebrate {
+  position: absolute; inset: 0; z-index: 100;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(0,20,60,0.92);
+  gap: 18px; text-align: center; padding: 24px;
+}
+@keyframes fishJiggle {
+  0%   { transform: scale(1)   rotate(0deg); }
+  20%  { transform: scale(1.35) rotate(-12deg); }
+  45%  { transform: scale(1.3) rotate(12deg); }
+  65%  { transform: scale(1.15) rotate(-6deg); }
+  85%  { transform: scale(1.08) rotate(4deg); }
+  100% { transform: scale(1)   rotate(0deg); }
+}
+.fish-jiggle { animation: fishJiggle 0.65s ease-out; transform-box: fill-box; transform-origin: center; }
+
 /* Riddle puzzle */
 .riddle-text {
   font-size: clamp(1.1rem,3vw,1.45rem); font-style: italic;
@@ -1400,13 +1452,12 @@ body::before {
 }
 .riddle-btn { font-size: 1.1rem; }
 
-/* Memory puzzle — 2-column vertical layout */
+/* Memory puzzle — row layout (2–3 rows, columns set dynamically in JSX) */
 .memory-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
   width: 100%;
-  max-width: 320px;
+  max-width: 600px;
   margin: 0 auto;
 }
 .memory-card {
@@ -1417,7 +1468,7 @@ body::before {
   cursor: pointer; box-shadow: var(--shadow);
   transition: transform 0.3s, background 0.2s;
   position: relative; overflow: hidden;
-  min-height: 80px;
+  min-height: 60px;
   transform: rotate(var(--rot, 0deg));
 }
 .memory-card:hover:not(.face-up) {

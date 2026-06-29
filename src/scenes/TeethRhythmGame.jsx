@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
 const TOOTH_COLORS = ['#ff6b9d', '#a29bfe', '#74b9ff', '#00cec9', '#fdcb6e']
-const HIT_Y_MIN = 76
-const HIT_Y_MAX = 94
+const HIT_Y_MIN = 75
+const HIT_Y_MAX = 98
 const FRAME_MS = 50
 const TOTAL_TEETH = 20
 
@@ -43,6 +43,8 @@ export default function TeethRhythmGame({ onComplete, onCancel }) {
   const [speed, setSpeed] = useState(1.0)
   const [goldenBurst, setGoldenBurst] = useState(false)
   const [tapFlash, setTapFlash] = useState(null) // lane index
+  const [speedBurstEnabled, setSpeedBurstEnabled] = useState(false)
+  const speedBurstRef = useRef(false)
 
   // All mutable game state in a single ref to avoid stale closures
   const G = useRef({
@@ -79,7 +81,7 @@ export default function TeethRhythmGame({ onComplete, onCancel }) {
 
     const id = setInterval(() => {
       if (!g.playing) return
-      const step = 1.4 * g.speed
+      const step = 1.05 * g.speed
 
       g.teeth = g.teeth.map(t => ({ ...t, y: t.y + step }))
 
@@ -122,10 +124,12 @@ export default function TeethRhythmGame({ onComplete, onCancel }) {
 
       if (isGolden) {
         g.goldenDone = true
-        g.speed = Math.min(g.speed + 0.6, 4.5)
-        setSpeed(g.speed)
-        setGoldenBurst(true)
-        setTimeout(() => setGoldenBurst(false), 1800)
+        if (speedBurstRef.current) {
+          g.speed = Math.min(g.speed + 0.6, 4.5)
+          setSpeed(g.speed)
+          setGoldenBurst(true)
+          setTimeout(() => setGoldenBurst(false), 1800)
+        }
       }
 
       g.teeth.push(tooth)
@@ -187,9 +191,24 @@ export default function TeethRhythmGame({ onComplete, onCancel }) {
           <p className="rhythm-intro-desc">
             Catch all <strong>20 teeth</strong> by tapping the right lane!<br />
             Speed increases every 4 catches.<br />
-            Watch out for the <strong>✨ Golden Tooth</strong> — speed burst!<br />
             <span style={{ color: '#ef4444' }}>3 misses and you restart!</span>
           </p>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            background: 'rgba(255,255,255,0.1)', padding: '10px 16px',
+            borderRadius: 14, border: '2px solid rgba(255,255,255,0.2)',
+          }}>
+            <input
+              type="checkbox"
+              id="burstToggle"
+              checked={speedBurstEnabled}
+              onChange={e => { setSpeedBurstEnabled(e.target.checked); speedBurstRef.current = e.target.checked }}
+              style={{ width: 20, height: 20, cursor: 'pointer' }}
+            />
+            <label htmlFor="burstToggle" style={{ color: '#fde047', fontSize: '0.95rem', cursor: 'pointer', userSelect: 'none' }}>
+              ✨ Speed burst mode <span style={{ color: 'rgba(255,255,255,0.7)', fontSize:'0.85rem' }}>(Golden Tooth speeds things up!)</span>
+            </label>
+          </div>
           <button className="btn-primary" onClick={startGame}>Start! 🦷</button>
           <button className="btn-quest" style={{ marginTop: 8 }} onClick={onCancel}>Back</button>
         </div>

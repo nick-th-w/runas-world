@@ -480,6 +480,327 @@ function LakeSpiritChallenge({ playerName, speech, onWin }) {
   )
 }
 
+// ── Find the Fish scene ───────────────────────────────────────────────────────
+
+const FISH_DATA = [
+  { id:0, x:196, y:298, color:'#f87171', dir:1,  scale:1.0 },  // porthole
+  { id:1, x:68,  y:348, color:'#4ade80', dir:-1, scale:0.85 }, // left seaweed
+  { id:2, x:318, y:230, color:'#c4b5fd', dir:1,  scale:0.9 },  // ship mast area
+  { id:3, x:648, y:398, color:'#fb923c', dir:-1, scale:0.8 },  // near octopus
+  { id:4, x:716, y:88,  color:'#fde047', dir:1,  scale:0.75 }, // top right
+  { id:5, x:438, y:452, color:'#60a5fa', dir:-1, scale:0.8 },  // bottom rocks
+  { id:6, x:558, y:162, color:'#f472b6', dir:1,  scale:0.85 }, // jellyfish area
+  { id:7, x:748, y:268, color:'#fdba74', dir:-1, scale:0.9 },  // near seahorse
+  { id:8, x:222, y:418, color:'#818cf8', dir:1,  scale:0.75 }, // under anchor
+  { id:9, x:386, y:305, color:'#34d399', dir:-1, scale:0.85 }, // ship debris
+]
+
+function FishShape({ x, y, color, dir, scale, found, jiggling, onClick }) {
+  const s = scale * (found ? 1 : 1)
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <g
+        transform={`scale(${dir * s},${s})`}
+        onClick={onClick}
+        className={jiggling ? 'fish-jiggle' : ''}
+        style={{ cursor: found ? 'default' : 'pointer' }}
+      >
+        {found && <ellipse cx="0" cy="0" rx="28" ry="20" fill="#4ade80" opacity="0.45" />}
+        <ellipse cx="0" cy="0" rx="22" ry="12" fill={color} />
+        <ellipse cx="0" cy="0" rx="22" ry="12" fill="none" stroke="rgba(0,0,0,0.18)" strokeWidth="1" />
+        <path d="M-18,0 L-30,-11 L-30,11 Z" fill={color} opacity="0.85" />
+        <circle cx="12" cy="-3" r="3.5" fill="#fff" />
+        <circle cx="12" cy="-3" r="1.8" fill="#1a1a1a" />
+        {found && <text x="0" y="4" textAnchor="middle" fontSize="12" fill="#fff" fontWeight="bold">✓</text>}
+        {/* large transparent tap target */}
+        <rect x="-34" y="-22" width="68" height="44" fill="transparent" />
+      </g>
+    </g>
+  )
+}
+
+function FindTheFishScene({ playerName, onComplete }) {
+  const [foundFish, setFoundFish] = useState(new Set())
+  const [jigglingFish, setJigglingFish] = useState(new Set())
+  const [showCelebration, setShowCelebration] = useState(false)
+
+  const tapFish = (id) => {
+    if (foundFish.has(id)) return
+    setJigglingFish(s => new Set([...s, id]))
+    setTimeout(() => setJigglingFish(s => { const n = new Set(s); n.delete(id); return n }), 700)
+    const newFound = new Set([...foundFish, id])
+    setFoundFish(newFound)
+    if (newFound.size === 10) setTimeout(() => setShowCelebration(true), 900)
+  }
+
+  if (showCelebration) {
+    return (
+      <LakeShallowsScene>
+        <div className="find-fish-celebrate">
+          <div style={{ fontSize: '4rem' }}>🎉🐟🎉</div>
+          <h2 style={{ color: '#fde047', fontSize: 'clamp(1.8rem,5vw,2.6rem)', fontWeight: 'bold' }}>
+            Amazing! You found all 10 fish!
+          </h2>
+          <p style={{ color: '#fff', fontSize: '1.1rem' }}>
+            The baby fish are so happy, {playerName}!
+          </p>
+          <button className="btn-primary" onClick={onComplete}>Collect Stone 2 →</button>
+        </div>
+      </LakeShallowsScene>
+    )
+  }
+
+  return (
+    <div className="find-fish-screen">
+      <div className="find-fish-counter">{foundFish.size} / 10 🐟</div>
+      {foundFish.size === 0 && (
+        <div className="find-fish-hint">Tap every fish you can find!</div>
+      )}
+
+      <svg
+        viewBox="0 0 800 500"
+        width="100%" height="100%"
+        style={{ display: 'block', touchAction: 'manipulation' }}
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <defs>
+          <linearGradient id="ffSeaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#0c3d6e" />
+            <stop offset="60%" stopColor="#0e4f7a" />
+            <stop offset="100%" stopColor="#0a3352" />
+          </linearGradient>
+          <radialGradient id="ffLightRay" cx="50%" cy="0%">
+            <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#7dd3fc" stopOpacity="0" />
+          </radialGradient>
+          <filter id="ffGlow">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        {/* Ocean background */}
+        <rect width="800" height="500" fill="url(#ffSeaGrad)" />
+        <rect width="800" height="500" fill="url(#ffLightRay)" />
+
+        {/* Light rays */}
+        {[150,280,400,520,650].map((x,i) => (
+          <path key={i} d={`M${x},0 L${x-30},500 L${x+30},500 Z`}
+            fill="#a5f3fc" opacity="0.025" />
+        ))}
+
+        {/* Bubbles */}
+        {[[80,380,4],[130,290,3],[420,310,5],[600,200,3],[700,350,4],[360,140,3],[550,400,4],[200,180,3]].map(([x,y,r],i)=>(
+          <circle key={i} cx={x} cy={y} r={r} fill="none" stroke="#93c5fd" strokeWidth="1.2" opacity="0.35" />
+        ))}
+
+        {/* Sandy bottom */}
+        <path d="M0,460 Q200,445 400,455 Q600,465 800,450 L800,500 L0,500 Z" fill="#d4a96a" opacity="0.7" />
+        <path d="M0,475 Q200,465 400,470 Q600,475 800,465 L800,500 L0,500 Z" fill="#c8943f" opacity="0.5" />
+
+        {/* Rocks */}
+        {[[380,462,22,14],[415,468,16,10],[460,465,20,12],[180,470,18,11],[580,460,24,14]].map(([x,y,rx,ry],i)=>(
+          <ellipse key={i} cx={x} cy={y} rx={rx} ry={ry} fill={['#6b7280','#9ca3af','#4b5563','#9ca3af','#6b7280'][i]} />
+        ))}
+
+        {/* ── Sunken Pirate Ship (center-left, tilted ~-8deg) ── */}
+        <g transform="translate(190,170) rotate(-8)">
+          {/* hull */}
+          <path d="M-95,60 Q-100,120 -80,160 L80,160 Q100,120 95,60 Z"
+            fill="#5c3d1e" stroke="#3b2410" strokeWidth="3" />
+          {/* hull planks */}
+          {[-40,-10,20,50,80].map((y,i)=>(
+            <line key={i} x1="-90" y1={y+60} x2="90" y2={y+60}
+              stroke="#3b2410" strokeWidth="1.5" opacity="0.4" />
+          ))}
+          {/* deck */}
+          <rect x="-95" y="55" width="190" height="14" rx="4" fill="#7c4f25" stroke="#3b2410" strokeWidth="2" />
+          {/* mast (broken) */}
+          <rect x="-8" y="-70" width="16" height="130" rx="4" fill="#6b4226" stroke="#3b2410" strokeWidth="2" />
+          <rect x="-8" y="-70" width="16" height="65" rx="4" fill="#5c3317" />
+          {/* broken mast top */}
+          <line x1="4" y1="-5" x2="70" y2="20" stroke="#6b4226" strokeWidth="10" strokeLinecap="round" />
+          {/* torn sail */}
+          <path d="M-6,-65 Q30,-50 25,-10 Q10,-8 -6,-5 Z"
+            fill="#d4c5a9" stroke="#a89880" strokeWidth="1.5" opacity="0.8" />
+          <path d="M-6,-65 Q-20,-55 -24,-30 Q-10,-20 -6,-5 Z"
+            fill="#c9b898" stroke="#a89880" strokeWidth="1.5" opacity="0.6" />
+          {/* portholes */}
+          {[[-55,90],[-20,90],[20,90],[55,90]].map(([px,py],i)=>(
+            <g key={i}>
+              <circle cx={px} cy={py} r="14" fill="#1e3a5f" stroke="#3b2410" strokeWidth="2.5" />
+              <circle cx={px} cy={py} r="10" fill="#1a2f4a" />
+              <circle cx={px} cy={py} r="10" fill="none" stroke="#2563eb" strokeWidth="1" opacity="0.4" />
+            </g>
+          ))}
+          {/* anchor */}
+          <line x1="55" y1="155" x2="55" y2="210" stroke="#6b7280" strokeWidth="4" strokeLinecap="round" />
+          <ellipse cx="55" cy="218" rx="14" ry="5" fill="none" stroke="#6b7280" strokeWidth="3.5" />
+          <line x1="41" y1="210" x2="69" y2="210" stroke="#6b7280" strokeWidth="3.5" strokeLinecap="round" />
+          {/* seaweed on hull */}
+          {[[-75,140],[-35,150],[50,145]].map(([sx,sy],i)=>(
+            <path key={i} d={`M${sx},${sy} Q${sx+10},${sy-20} ${sx},${sy-38} Q${sx-10},${sy-55} ${sx},${sy-68}`}
+              stroke="#16a34a" strokeWidth="3.5" fill="none" strokeLinecap="round" opacity="0.8" />
+          ))}
+          {/* barnacles */}
+          {[[-60,100],[-25,115],[30,105],[60,110],[-80,130]].map(([bx,by],i)=>(
+            <ellipse key={i} cx={bx} cy={by} rx="5" ry="3" fill="#9ca3af" opacity="0.6" />
+          ))}
+          {/* treasure chest near ship */}
+          <g transform="translate(115,145)">
+            <rect x="0" y="0" width="32" height="24" rx="3" fill="#92400e" stroke="#78350f" strokeWidth="2" />
+            <rect x="0" y="0" width="32" height="12" rx="3" fill="#b45309" stroke="#78350f" strokeWidth="2" />
+            <rect x="11" y="8" width="10" height="10" rx="2" fill="#fbbf24" />
+            <line x1="0" y1="12" x2="32" y2="12" stroke="#78350f" strokeWidth="1.5" />
+          </g>
+          {/* skull & crossbones flag */}
+          <g transform="translate(-5,-80)">
+            <rect x="0" y="0" width="28" height="20" rx="2" fill="#1a1a1a" />
+            <circle cx="14" cy="8" r="5" fill="#f9fafb" />
+            <line x1="8" y1="14" x2="20" y2="14" stroke="#f9fafb" strokeWidth="1.5" />
+            <line x1="10" y1="12" x2="18" y2="16" stroke="#f9fafb" strokeWidth="1.2" />
+            <line x1="18" y1="12" x2="10" y2="16" stroke="#f9fafb" strokeWidth="1.2" />
+          </g>
+        </g>
+
+        {/* ── Seaweed clusters ── */}
+        {/* Left cluster */}
+        {[[40,470],[60,465],[80,468],[50,465]].map(([sx,sy],i)=>(
+          <path key={`swL${i}`} d={`M${sx},${sy} Q${sx+(i%2?8:-8)},${sy-35} ${sx},${sy-65} Q${sx+(i%2?-8:8)},${sy-90} ${sx},${sy-115}`}
+            stroke={['#16a34a','#22c55e','#15803d','#4ade80'][i]} strokeWidth={3+i%2}
+            fill="none" strokeLinecap="round" opacity="0.9" />
+        ))}
+        {/* Right cluster */}
+        {[[720,470],[740,465],[760,468],[730,462]].map(([sx,sy],i)=>(
+          <path key={`swR${i}`} d={`M${sx},${sy} Q${sx+(i%2?9:-9)},${sy-40} ${sx},${sy-75} Q${sx+(i%2?-9:9)},${sy-105} ${sx},${sy-130}`}
+            stroke={['#16a34a','#22c55e','#15803d','#4ade80'][i]} strokeWidth={3+i%2}
+            fill="none" strokeLinecap="round" opacity="0.9" />
+        ))}
+        {/* Center-right cluster */}
+        {[[500,475],[520,470],[510,472]].map(([sx,sy],i)=>(
+          <path key={`swC${i}`} d={`M${sx},${sy} Q${sx+(i%2?7:-7)},${sy-30} ${sx},${sy-55} Q${sx+(i%2?-7:7)},${sy-78} ${sx},${sy-95}`}
+            stroke={['#15803d','#22c55e','#4ade80'][i]} strokeWidth="3"
+            fill="none" strokeLinecap="round" opacity="0.85" />
+        ))}
+        {/* Near ship extra fronds */}
+        {[[90,470],[115,465]].map(([sx,sy],i)=>(
+          <path key={`swS${i}`} d={`M${sx},${sy} Q${sx+6},${sy-28} ${sx},${sy-50} Q${sx-6},${sy-68} ${sx},${sy-82}`}
+            stroke="#16a34a" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.8" />
+        ))}
+
+        {/* ── Sea creatures ── */}
+
+        {/* Octopus - bottom right */}
+        <g transform="translate(660,405)">
+          {[-30,-15,0,15,30,-22,8,22].map((ox,i)=>(
+            <path key={i} d={`M${ox},0 Q${ox+(i%2?10:-10)},20 ${ox+(i%3?-5:5)},38`}
+              stroke="#a78bfa" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+          ))}
+          <ellipse cx="0" cy="-8" rx="28" ry="22" fill="#8b5cf6" stroke="#7c3aed" strokeWidth="2" />
+          <ellipse cx="-10" cy="-12" rx="5" ry="5.5" fill="#1a1a1a" />
+          <ellipse cx="10" cy="-12" rx="5" ry="5.5" fill="#1a1a1a" />
+          <circle cx="-9" cy="-13" r="2.5" fill="#fff" />
+          <circle cx="11" cy="-13" r="2.5" fill="#fff" />
+          <path d="M-8,-2 Q0,4 8,-2" stroke="#fff" strokeWidth="1.5" fill="none" />
+        </g>
+
+        {/* Crab - bottom left near ship */}
+        <g transform="translate(120,455)">
+          {/* legs */}
+          {[[-30,-8],[-20,-4],[-15,4],[-8,8],[8,8],[15,4],[20,-4],[30,-8]].map(([lx,ly],i)=>(
+            <line key={i} x1={lx>0?14:-14} y1="0" x2={lx} y2={ly}
+              stroke="#ef4444" strokeWidth="3" strokeLinecap="round" />
+          ))}
+          <ellipse cx="0" cy="0" rx="18" ry="11" fill="#dc2626" stroke="#b91c1c" strokeWidth="2" />
+          <ellipse cx="-7" cy="-4" rx="4" ry="4" fill="#1a1a1a" />
+          <ellipse cx="7" cy="-4" rx="4" ry="4" fill="#1a1a1a" />
+          {/* claws */}
+          <path d="M-14,-5 Q-26,-10 -28,-4 Q-26,2 -18,0" fill="#dc2626" stroke="#b91c1c" strokeWidth="1.5" />
+          <path d="M14,-5 Q26,-10 28,-4 Q26,2 18,0" fill="#dc2626" stroke="#b91c1c" strokeWidth="1.5" />
+        </g>
+
+        {/* Starfish on ship hull */}
+        <g transform="translate(152,308) rotate(20)">
+          {[0,72,144,216,288].map((deg,i)=>(
+            <ellipse key={i} cx={Math.cos(deg*Math.PI/180)*16} cy={Math.sin(deg*Math.PI/180)*16}
+              rx="6" ry="14"
+              fill="#fb923c" stroke="#ea580c" strokeWidth="1"
+              transform={`rotate(${deg},${Math.cos(deg*Math.PI/180)*16},${Math.sin(deg*Math.PI/180)*16})`} />
+          ))}
+          <circle cx="0" cy="0" r="6" fill="#fbbf24" />
+        </g>
+
+        {/* Jellyfish 1 - upper center-right */}
+        <g transform="translate(540,130)">
+          {[-20,-10,0,10,20,-14,14].map((jx,i)=>(
+            <path key={i} d={`M${jx},18 Q${jx+(i%2?8:-8)},40 ${jx+(i%3?-4:4)},62`}
+              stroke="#f9a8d4" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.7" />
+          ))}
+          <path d="M-32,0 Q-30,-28 0,-32 Q30,-28 32,0 Z" fill="#fbcfe8" stroke="#f9a8d4" strokeWidth="1.5" opacity="0.85" />
+          <ellipse cx="0" cy="-8" rx="20" ry="14" fill="#fce7f3" opacity="0.5" />
+        </g>
+
+        {/* Jellyfish 2 - upper left */}
+        <g transform="translate(140,100)">
+          {[-14,-6,0,6,14].map((jx,i)=>(
+            <path key={i} d={`M${jx},14 Q${jx+(i%2?6:-6)},30 ${jx+(i%2?-3:3)},46`}
+              stroke="#c4b5fd" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.65" />
+          ))}
+          <path d="M-22,0 Q-20,-20 0,-22 Q20,-20 22,0 Z" fill="#ddd6fe" stroke="#c4b5fd" strokeWidth="1.5" opacity="0.8" />
+        </g>
+
+        {/* Seahorse - right side */}
+        <g transform="translate(755,240)">
+          <path d="M0,0 Q10,-10 5,-25 Q-5,-38 0,-50 Q8,-60 4,-72"
+            stroke="#fbbf24" strokeWidth="7" fill="none" strokeLinecap="round" />
+          <circle cx="0" cy="-72" r="10" fill="#fde047" stroke="#d97706" strokeWidth="1.5" />
+          <circle cx="4" cy="-76" r="3" fill="#1a1a1a" />
+          <path d="M0,-72 L14,-68" stroke="#d97706" strokeWidth="2" strokeLinecap="round" />
+          {/* fins */}
+          <path d="M5,-30 Q16,-25 14,-18 Q8,-14 5,-20 Z" fill="#fde047" opacity="0.7" />
+          <path d="M0,0 Q-14,8 -12,18 Q-4,20 0,14 Z" fill="#fde047" opacity="0.6" />
+        </g>
+
+        {/* Turtle - center */}
+        <g transform="translate(470,350)">
+          <ellipse cx="0" cy="0" rx="26" ry="20" fill="#16a34a" stroke="#15803d" strokeWidth="2" />
+          {/* shell pattern */}
+          <ellipse cx="0" cy="0" rx="18" ry="14" fill="#22c55e" stroke="#15803d" strokeWidth="1" />
+          {[[-6,-5],[6,-5],[0,5]].map(([hx,hy],i)=>(
+            <line key={i} x1="0" y1="0" x2={hx} y2={hy} stroke="#15803d" strokeWidth="1.5" />
+          ))}
+          {/* head */}
+          <circle cx="28" cy="0" r="9" fill="#16a34a" stroke="#15803d" strokeWidth="1.5" />
+          <circle cx="31" cy="-3" r="2.5" fill="#1a1a1a" />
+          {/* flippers */}
+          <ellipse cx="-8" cy="-22" rx="8" ry="14" fill="#16a34a" transform="rotate(-30,-8,-22)" />
+          <ellipse cx="8" cy="-22" rx="8" ry="14" fill="#16a34a" transform="rotate(30,8,-22)" />
+          <ellipse cx="-8" cy="22" rx="8" ry="14" fill="#16a34a" transform="rotate(30,-8,22)" />
+          <ellipse cx="8" cy="22" rx="8" ry="14" fill="#16a34a" transform="rotate(-30,8,22)" />
+        </g>
+
+        {/* Clam - bottom center */}
+        <g transform="translate(490,460)">
+          <ellipse cx="0" cy="0" rx="20" ry="12" fill="#d1d5db" stroke="#9ca3af" strokeWidth="2" />
+          <path d="M-20,0 Q0,-16 20,0" fill="#e5e7eb" stroke="#9ca3af" strokeWidth="2" />
+          <ellipse cx="0" cy="-4" rx="4" ry="4" fill="#f472b6" />
+        </g>
+
+        {/* ── 10 hidden fish ── */}
+        {FISH_DATA.map(f => (
+          <FishShape
+            key={f.id}
+            {...f}
+            found={foundFish.has(f.id)}
+            jiggling={jigglingFish.has(f.id)}
+            onClick={() => tapFish(f.id)}
+          />
+        ))}
+      </svg>
+    </div>
+  )
+}
+
 // ── Main Chapter 2 component ──────────────────────────────────────────────────
 
 export default function Chapter2({ player, quest, speech, advanceCh2, completeSideQuest, completeMain: completeCh2Main, onComplete }) {
@@ -563,14 +884,16 @@ export default function Chapter2({ player, quest, speech, advanceCh2, completeSi
     )
   }
 
-  // ── Quest: Baby Fish puzzle ──
+  // ── Quest: Baby Fish — Find the Fish scene ──
   if (subPhase === 'baby-fish-puzzle') {
     return (
-      <PuzzleSet chapterId={2} questId="baby-fish"
-        onComplete={(medal) => {
-          completeSideQuest('ch2BabyFish', 'ch2FishBadge', medal)
+      <FindTheFishScene
+        playerName={player.name}
+        onComplete={() => {
+          completeSideQuest('ch2BabyFish', 'ch2FishBadge', 'gold')
           advance('baby-fish-success')
-        }} />
+        }}
+      />
     )
   }
 
