@@ -11,6 +11,53 @@ function sub(lines, name) {
   return lines.map(l => l.replace(/\[NAME\]/g, name))
 }
 
+// ── Trial stone helpers ───────────────────────────────────────────────────────
+
+function StoneGem({ color, size = 18 }) {
+  return (
+    <svg width={size} height={Math.round(size * 1.3)} viewBox="0 0 20 26"
+      style={{ display:'block', filter:`drop-shadow(0 0 3px ${color})` }}>
+      <polygon points="10,2 19,10 10,24 1,10" fill={color} />
+      <polygon points="10,2 19,10 10,10 1,10" fill="rgba(255,255,255,0.38)" />
+      <circle cx="10" cy="14" r="2.5" fill="rgba(255,255,255,0.28)" />
+    </svg>
+  )
+}
+
+const STONE_COLORS = ['#f472b6','#60a5fa','#a78bfa','#fbbf24','#fbbf24','#34d399']
+
+function CollectedStones({ quest }) {
+  const gems = []
+  if (quest.ch2LilyPads)    gems.push(STONE_COLORS[0])
+  if (quest.ch2BabyFish)    gems.push(STONE_COLORS[1])
+  if (quest.ch2FallingTeeth) gems.push(STONE_COLORS[2])
+  if (quest.ch2FairyRing)   { gems.push(STONE_COLORS[3]); gems.push(STONE_COLORS[4]) }
+  if (quest.ch2MiniBoss)    gems.push(STONE_COLORS[5])
+  if (gems.length === 0) return null
+  return (
+    <div style={{ display:'flex', flexWrap:'wrap', gap:3, maxWidth:72, marginTop:4 }}>
+      {gems.map((color, i) => <StoneGem key={i} color={color} size={18} />)}
+    </div>
+  )
+}
+
+// Pulsing stone orb placed inside a scene SVG — represents an uncollected trial stone
+function SceneStoneOrb({ x, y, color, visible }) {
+  if (!visible) return null
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <circle cx="0" cy="0" r="18" fill={color} opacity="0.18">
+        <animate attributeName="r" values="14;22;14" dur="2.2s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.12;0.3;0.12" dur="2.2s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="0" cy="0" r="9" fill={color} stroke="rgba(255,255,255,0.55)" strokeWidth="1.5">
+        <animate attributeName="r" values="7;10;7" dur="2.2s" repeatCount="indefinite" />
+      </circle>
+      <text x="0" y="4" textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.9)">✦</text>
+    </g>
+  )
+}
+
 // ── Scene SVG backgrounds ─────────────────────────────────────────────────────
 
 function BedroomMorningScene({ children }) {
@@ -115,7 +162,7 @@ function VillagePathScene({ children }) {
   )
 }
 
-function LakeshoreScene({ children }) {
+function LakeshoreScene({ children, stone1Collected = false }) {
   return (
     <div className="scene ch2-lakeshore">
       <svg style={{ position:'absolute',inset:0,width:'100%',height:'100%' }}
@@ -141,9 +188,10 @@ function LakeshoreScene({ children }) {
         {[[180,310],[260,330],[380,295],[500,320],[620,308]].map(([x,y],i)=>(
           <g key={i} transform={`translate(${x},${y})`}>
             <ellipse cx="0" cy="0" rx="22" ry="14" fill="#22c55e" stroke="#16a34a" strokeWidth="1.5" />
-            {i%2===0 && <ellipse cx="0" cy="-16" rx="5" ry="6" fill="#f472b6" stroke="#be185d" strokeWidth="1" />}
           </g>
         ))}
+        {/* trial stone 1 — on the centre lily pad */}
+        <SceneStoneOrb x={380} y={278} color={STONE_COLORS[0]} visible={!stone1Collected} />
         {/* reeds */}
         {[[680,200],[700,195],[720,205],[740,198]].map(([x,y],i)=>(
           <g key={i}>
@@ -165,7 +213,7 @@ function LakeshoreScene({ children }) {
   )
 }
 
-function LakeShallowsScene({ children }) {
+function LakeShallowsScene({ children, stone2Collected = false, stone3Collected = false }) {
   return (
     <div className="scene ch2-lake-shallows">
       <svg style={{ position:'absolute',inset:0,width:'100%',height:'100%' }}
@@ -202,13 +250,17 @@ function LakeShallowsScene({ children }) {
           <path key={i} d={`M${x},${y} Q${x+15},${y-40} ${x},${y-70} Q${x-15},${y-100} ${x},${y-130}`}
             stroke="#16a34a" strokeWidth="4" fill="none" strokeLinecap="round" />
         ))}
+        {/* trial stone 2 — baby fish */}
+        <SceneStoneOrb x={290} y={115} color={STONE_COLORS[1]} visible={!stone2Collected} />
+        {/* trial stone 3 — falling teeth */}
+        <SceneStoneOrb x={510} y={115} color={STONE_COLORS[2]} visible={!stone3Collected} />
       </svg>
       {children}
     </div>
   )
 }
 
-function DeepLakeScene({ children }) {
+function DeepLakeScene({ children, fairyRingCollected = false, miniBossCollected = false }) {
   return (
     <div className="scene ch2-deep-lake">
       <svg style={{ position:'absolute',inset:0,width:'100%',height:'100%' }}
@@ -253,6 +305,11 @@ function DeepLakeScene({ children }) {
         ))}
         {/* ground glow */}
         <path d="M0,420 Q400,400 800,420 L800,500 L0,500 Z" fill="#0e7490" opacity="0.6" />
+        {/* trial stones 4+5 — fairy ring (two orbs near ring centre) */}
+        <SceneStoneOrb x={375} y={290} color={STONE_COLORS[3]} visible={!fairyRingCollected} />
+        <SceneStoneOrb x={425} y={310} color={STONE_COLORS[4]} visible={!fairyRingCollected} />
+        {/* trial stone 6 — lake spirit (above the ring) */}
+        <SceneStoneOrb x={400} y={175} color={STONE_COLORS[5]} visible={!miniBossCollected} />
       </svg>
       {children}
     </div>
@@ -866,9 +923,10 @@ export default function Chapter2({ player, quest, speech, advanceCh2, completeSi
   // ── Lakeshore ──
   if (subPhase === 'lakeshore') {
     return (
-      <LakeshoreScene>
+      <LakeshoreScene stone1Collected={quest.ch2LilyPads}>
         <div style={{ position:'absolute', bottom:'6%', left:'6%' }}>
           <Component size={90} hasCrown={false} />
+          <CollectedStones quest={quest} />
           <div className="name-tag">{player.name}</div>
         </div>
         <div className="explore-panel">
@@ -923,9 +981,10 @@ export default function Chapter2({ player, quest, speech, advanceCh2, completeSi
   if (subPhase === 'lake-shallows') {
     const canAdvance = quest.ch2BabyFish && quest.ch2FallingTeeth
     return (
-      <LakeShallowsScene>
+      <LakeShallowsScene stone2Collected={quest.ch2BabyFish} stone3Collected={quest.ch2FallingTeeth}>
         <div style={{ position:'absolute', bottom:'6%', left:'6%' }}>
           <Component size={90} hasCrown={false} />
+          <CollectedStones quest={quest} />
           <div className="name-tag">{player.name}</div>
         </div>
         <div className="explore-panel">
@@ -994,9 +1053,10 @@ export default function Chapter2({ player, quest, speech, advanceCh2, completeSi
   // ── Deep Lake ──
   if (subPhase === 'deep-lake') {
     return (
-      <DeepLakeScene>
+      <DeepLakeScene fairyRingCollected={quest.ch2FairyRing} miniBossCollected={quest.ch2MiniBoss}>
         <div style={{ position:'absolute', bottom:'6%', left:'6%' }}>
           <Component size={90} hasCrown={false} />
+          <CollectedStones quest={quest} />
           <div className="name-tag">{player.name}</div>
         </div>
         {!quest.ch2FairyRing ? (
